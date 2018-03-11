@@ -1,14 +1,8 @@
+const Game = require("./game.js");
+const Board = require("./board.js");
 
-/* jshint node: true */
-/* jshint esnext: true */
-
-'use strict';
-
-var Game = require("./game.js");
-var Board = require("./board.js");
-
-var board = new Board();
-var game = new Game(board);
+const board = new Board();
+const game = new Game(board);
 
 game.start();
 

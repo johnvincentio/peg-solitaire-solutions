@@ -1,0 +1,16 @@
+{
+	"extends": ["airbnb", "prettier"],
+	"env": {
+		"node": true,
+		"browser": false,
+		"es6": true
+	},
+	"globals": {},
+	"rules": {
+		"indent": [2, "tab"],
+		"no-tabs": 0,
+		"react/jsx-indent": ["off", 2],
+		"react/jsx-indent-props": ["off", 2]
+	},
+	"plugins": []
+}

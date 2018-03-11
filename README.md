@@ -21,3 +21,6 @@ Add to package.json
   },
 ```
 
+npm start
+
+npm test
