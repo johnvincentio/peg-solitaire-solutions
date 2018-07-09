@@ -2,7 +2,7 @@
 
 # Peg Solitaire
 
-See [Overview of Peg Solitaire](https://www.johnvincent.io/peg-solitaire-overview/)
+See [Overview of Peg Solitaire](https://www.johnvincent.io/johnvincent/peg-solitaire-overview/)
 
 
 
