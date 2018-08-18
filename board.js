@@ -1,5 +1,7 @@
 //
 
+/* eslint-disable no-plusplus */
+
 class Board {
 	constructor() {
 		this.init();
@@ -33,7 +35,7 @@ class Board {
 	/*
 * empty the board model
 */
-	empty_board() {
+	emptyBoard() {
 		this.rows = [];
 		for (let x = 0; x < 7; x++) {
 			const row = [];

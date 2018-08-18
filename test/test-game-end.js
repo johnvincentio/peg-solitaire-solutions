@@ -12,7 +12,7 @@ const Board = require('../board');
 describe('test end of game', () => {
 	it('game should be over', () => {
 		const board = new Board();
-		board.empty_board();
+		board.emptyBoard();
 		board.setOccupied(6, 2);
 
 		const game = new Game(board);
@@ -35,7 +35,7 @@ describe('test end of game', () => {
 
 	it('game should not be over', () => {
 		const board = new Board();
-		board.empty_board();
+		board.emptyBoard();
 		board.setOccupied(6, 2);
 
 		const game = new Game(board);
