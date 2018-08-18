@@ -36,6 +36,8 @@ class Game {
 		fs.writeFileSync(`victories/${this.victories}.txt`, JSON.stringify(this.moves));
 	}
 
+	/* eslint no-constant-condition: ["error", { "checkLoops": false }] */
+
 	start() {
 		console.log(`Started at ${new Date().getTime()}`);
 		while (true) {

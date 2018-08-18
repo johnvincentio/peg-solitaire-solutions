@@ -19,7 +19,7 @@ class Board {
 			for (y = 0; y < 7; y++) {
 				let legal = true;
 				let occupied = true;
-				if (!this.isLegal(x, y)) {
+				if (!Board.isLegal(x, y)) {
 					legal = false;
 					occupied = false;
 				}
@@ -42,7 +42,7 @@ class Board {
 			for (let y = 0; y < 7; y++) {
 				let legal = true;
 				const occupied = false;
-				if (!this.isLegal(x, y)) {
+				if (!Board.isLegal(x, y)) {
 					legal = false;
 				}
 				row.push({ legal, occupied });
@@ -55,7 +55,7 @@ class Board {
 * The board is treated as a square, so the function is used to determine which squares are
 * within the board
 */
-	isLegal(row, column) {
+	static isLegal(row, column) {
 		if (row < 0 || row > 6) {
 			return false;
 		}
@@ -71,21 +71,21 @@ class Board {
 	}
 
 	isOccupied(row, column) {
-		if (!this.isLegal(row, column)) {
+		if (!Board.isLegal(row, column)) {
 			throw Error(`Exception in isOccupied(); row ${row} column ${column} is not legal`);
 		}
 		return this.rows[row][column].occupied;
 	}
 
 	setEmpty(row, column) {
-		if (!this.isLegal(row, column)) {
+		if (!Board.isLegal(row, column)) {
 			throw Error(`Exception in setEmpty(); row ${row} column ${column} is not legal`);
 		}
 		this.rows[row][column].occupied = false;
 	}
 
 	setOccupied(row, column) {
-		if (!this.isLegal(row, column)) {
+		if (!Board.isLegal(row, column)) {
 			throw Error(`Exception in setEmpty(); row ${row} column ${column} is not legal`);
 		}
 		this.rows[row][column].occupied = true;
@@ -105,12 +105,12 @@ class Board {
 	//                this.isFromRightMoveLegal(row, column);
 	//    }
 
-	makeMoveStatus(status, from_row, from_column, via_row, via_column, to_row, to_column, type) {
+	static makeMoveStatus(status, fromRow, fromColumn, viaRow, viaColumn, toRow, toColumn, type) {
 		return {
 			status,
-			from: { row: from_row, column: from_column },
-			via: { row: via_row, column: via_column },
-			to: { row: to_row, column: to_column },
+			from: { row: fromRow, column: fromColumn },
+			via: { row: viaRow, column: viaColumn },
+			to: { row: toRow, column: toColumn },
 			type
 		};
 	}
@@ -119,19 +119,19 @@ class Board {
 		for (let current = type; current < 5; current++) {
 			if (current === 1) {
 				if (this.isFromUpMoveLegal(row, column)) {
-					return this.makeMoveStatus('OK', row, column, row - 1, column, row - 2, column, current);
+					return Board.makeMoveStatus('OK', row, column, row - 1, column, row - 2, column, current);
 				}
 			} else if (current === 2) {
 				if (this.isFromRightMoveLegal(row, column)) {
-					return this.makeMoveStatus('OK', row, column, row, column + 1, row, column + 2, current);
+					return Board.makeMoveStatus('OK', row, column, row, column + 1, row, column + 2, current);
 				}
 			} else if (current === 3) {
 				if (this.isFromDownMoveLegal(row, column)) {
-					return this.makeMoveStatus('OK', row, column, row + 1, column, row + 2, column, current);
+					return Board.makeMoveStatus('OK', row, column, row + 1, column, row + 2, column, current);
 				}
 			} else if (current === 4) {
 				if (this.isFromLeftMoveLegal(row, column)) {
-					return this.makeMoveStatus('OK', row, column, row, column - 1, row, column - 2, current);
+					return Board.makeMoveStatus('OK', row, column, row, column - 1, row, column - 2, current);
 				}
 			}
 		}
@@ -150,21 +150,21 @@ class Board {
 * 6c. Set to tile to occupied.
 */
 	makeMove(move) {
-		//        console.log(">>> makeMove; move "+JSON.stringify(move));
+		// console.log(">>> makeMove; move "+JSON.stringify(move));
 		const { status, from, to, via } = move;
 		if (status !== 'OK') {
 			throw Error(`Exception in makeMove(); move ${move} is invalid status`);
 		}
 
-		if (!this.isLegal(from.row, from.column) || !this.isOccupied(from.row, from.column)) {
+		if (!Board.isLegal(from.row, from.column) || !this.isOccupied(from.row, from.column)) {
 			// 3
 			throw Error(`Exception in makeMove(); from in ${move} is invalid`);
 		}
-		if (!this.isLegal(via.row, via.column) || !this.isOccupied(via.row, via.column)) {
+		if (!Board.isLegal(via.row, via.column) || !this.isOccupied(via.row, via.column)) {
 			// 4
 			throw Error(`Exception in makeMove(); via in ${move} is invalid`);
 		}
-		if (!this.isLegal(to.row, to.column) || this.isOccupied(to.row, to.column)) {
+		if (!Board.isLegal(to.row, to.column) || this.isOccupied(to.row, to.column)) {
 			// 5
 			throw Error(`Exception in makeMove(); to in ${move} is invalid`);
 		}
@@ -191,41 +191,41 @@ class Board {
 
 	isFromUpMoveLegal(row, column) {
 		return (
-			this.isLegal(row, column) &&
+			Board.isLegal(row, column) &&
 			this.isOccupied(row, column) &&
-			this.isLegal(row - 1, column) &&
+			Board.isLegal(row - 1, column) &&
 			this.isOccupied(row - 1, column) &&
-			this.isLegal(row - 2, column) &&
+			Board.isLegal(row - 2, column) &&
 			!this.isOccupied(row - 2, column)
 		);
 	}
 	isFromRightMoveLegal(row, column) {
 		return (
-			this.isLegal(row, column) &&
+			Board.isLegal(row, column) &&
 			this.isOccupied(row, column) &&
-			this.isLegal(row, column + 1) &&
+			Board.isLegal(row, column + 1) &&
 			this.isOccupied(row, column + 1) &&
-			this.isLegal(row, column + 2) &&
+			Board.isLegal(row, column + 2) &&
 			!this.isOccupied(row, column + 2)
 		);
 	}
 	isFromDownMoveLegal(row, column) {
 		return (
-			this.isLegal(row, column) &&
+			Board.isLegal(row, column) &&
 			this.isOccupied(row, column) &&
-			this.isLegal(row + 1, column) &&
+			Board.isLegal(row + 1, column) &&
 			this.isOccupied(row + 1, column) &&
-			this.isLegal(row + 2, column) &&
+			Board.isLegal(row + 2, column) &&
 			!this.isOccupied(row + 2, column)
 		);
 	}
 	isFromLeftMoveLegal(row, column) {
 		return (
-			this.isLegal(row, column) &&
+			Board.isLegal(row, column) &&
 			this.isOccupied(row, column) &&
-			this.isLegal(row, column - 1) &&
+			Board.isLegal(row, column - 1) &&
 			this.isOccupied(row, column - 1) &&
-			this.isLegal(row, column - 2) &&
+			Board.isLegal(row, column - 2) &&
 			!this.isOccupied(row, column - 2)
 		);
 	}

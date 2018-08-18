@@ -12,28 +12,25 @@ const { expect } = require('chai');
 
 describe('test Board.isLegal()', () => {
 	it('isLegal() should return boolean', () => {
-		const board = new Board();
-		const ans = board.isLegal(-1, -1);
+		const ans = Board.isLegal(-1, -1);
 		ans.should.be.a('boolean');
 		ans.should.equal(false);
 	});
 
 	it('isLegal() should understand legal tiles', () => {
-		const board = new Board();
-
 		for (let row = -3; row < 10; row++) {
 			for (let col = -5; col < 11; col++) {
 				if (row < 0 || row > 6 || col < 0 || col > 6) {
-					board.isLegal(row, col).should.equal(false);
+					Board.isLegal(row, col).should.equal(false);
 					continue;
 				}
 				if (row === 0 || row === 1 || row === 5 || row === 6) {
 					if (col === 0 || col === 1 || col === 5 || col === 6) {
-						board.isLegal(row, col).should.equal(false);
+						Board.isLegal(row, col).should.equal(false);
 						continue;
 					}
 				}
-				board.isLegal(row, col).should.equal(true);
+				Board.isLegal(row, col).should.equal(true);
 			}
 		}
 	});
