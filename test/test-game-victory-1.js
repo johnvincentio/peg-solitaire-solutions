@@ -11,8 +11,8 @@ const Utils = require('./utils');
 // const should = require('chai').should();
 // const expect = require('chai').expect;
 
-const data = [];
-data[0] = [
+const testData = [];
+testData[0] = [
 	{ status: 'OK', from: { row: 1, column: 3 }, via: { row: 2, column: 3 }, to: { row: 3, column: 3 }, type: 3 },
 	{ status: 'OK', from: { row: 2, column: 1 }, via: { row: 2, column: 2 }, to: { row: 2, column: 3 }, type: 2 },
 	{ status: 'OK', from: { row: 0, column: 2 }, via: { row: 1, column: 2 }, to: { row: 2, column: 2 }, type: 3 },
@@ -45,7 +45,7 @@ data[0] = [
 	{ status: 'OK', from: { row: 4, column: 1 }, via: { row: 4, column: 2 }, to: { row: 4, column: 3 }, type: 2 },
 	{ status: 'OK', from: { row: 5, column: 3 }, via: { row: 4, column: 3 }, to: { row: 3, column: 3 }, type: 1 }
 ];
-data[1] = [
+testData[1] = [
 	{ status: 'OK', from: { row: 1, column: 3 }, via: { row: 2, column: 3 }, to: { row: 3, column: 3 }, type: 3 },
 	{ status: 'OK', from: { row: 2, column: 1 }, via: { row: 2, column: 2 }, to: { row: 2, column: 3 }, type: 2 },
 	{ status: 'OK', from: { row: 0, column: 2 }, via: { row: 1, column: 2 }, to: { row: 2, column: 2 }, type: 3 },
@@ -106,12 +106,12 @@ function testVictory(data) {
 
 describe('test victory games', () => {
 	it('test victory game 1', () => {
-		const myData = data[0];
+		const myData = testData[0];
 		testVictory(myData);
 	});
 
 	it('test victory game 2', () => {
-		const myData = data[1];
+		const myData = testData[1];
 		testVictory(myData);
 	});
 });

@@ -2,6 +2,8 @@
 
 /* eslint-disable no-plusplus, no-continue */
 
+const fs = require('fs');
+
 class Game {
 	constructor(board) {
 		this.board = board;
@@ -31,7 +33,6 @@ class Game {
 	}
 
 	writeVictory() {
-		const fs = require('fs');
 		fs.writeFileSync(`victories/${this.victories}.txt`, JSON.stringify(this.moves));
 	}
 
@@ -60,8 +61,8 @@ class Game {
 	}
 
 	nextMove() {
-		for (let row = this.from.row; row < 7; row++) {
-			for (let column = this.from.column; column < 7; column++) {
+		for (let { row } = this.from; row < 7; row++) {
+			for (let { column } = this.from; column < 7; column++) {
 				if (!this.board.isLegal(row, column)) {
 					continue;
 				}

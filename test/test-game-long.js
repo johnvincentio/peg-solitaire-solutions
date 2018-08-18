@@ -11,7 +11,7 @@ const Utils = require('./utils');
 // const should = require('chai').should();
 // const expect = require('chai').expect;
 
-const data = [
+const testData = [
 	{ status: 'OK', from: { row: 1, column: 3 }, via: { row: 2, column: 3 }, to: { row: 3, column: 3 }, type: 3 },
 	{ status: 'OK', from: { row: 2, column: 1 }, via: { row: 2, column: 2 }, to: { row: 2, column: 3 }, type: 2 },
 	{ status: 'OK', from: { row: 0, column: 2 }, via: { row: 1, column: 2 }, to: { row: 2, column: 2 }, type: 3 },
@@ -80,10 +80,10 @@ describe('test long game', () => {
 		const utils = new Utils(game);
 
 		const local = [];
-		for (let dataIdx = 0; dataIdx < data.length; dataIdx++) {
+		for (let dataIdx = 0; dataIdx < testData.length; dataIdx++) {
 			const obj = game.nextMove(); // next move
-			//            console.log(JSON.stringify(obj));
-			obj.should.be.deep.equal(data[dataIdx]);
+			// console.log(JSON.stringify(obj));
+			obj.should.be.deep.equal(testData[dataIdx]);
 
 			game.handleNextMove(obj); // make the move
 

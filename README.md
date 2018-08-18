@@ -14,21 +14,6 @@ See [Overview of Peg Solitaire](https://www.johnvincent.io/johnvincent/peg-solit
 
 ## Getting Started
 
-```
-npm init
-npm install mocha --save-dev
-npm install chai --save-dev
-```
+* npm start
 
-```
-Add to package.json
-
-  "scripts": {
-    "start": "node main.js",
-    "test": "mocha"
-  },
-```
-
-npm start
-
-npm test
+* npm test
