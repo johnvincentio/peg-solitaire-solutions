@@ -1,31 +1,31 @@
-/* jshint node: true */
-/* jshint esnext: true */
-/* global describe, it*/
+//
 
-"use strict";
+/* global describe, it */
 
-const Board = require("../board");
+/* eslint-disable no-plusplus, no-continue */
 
-require("chai").should();
+const Board = require('../board');
 
-var expect = require("chai").expect;
+require('chai').should();
 
-describe("board functions", function() {
-	it("find hightest legal row, column", function() {
-		let board = new Board();
-		let max_row = -1;
-		let max_column = -1;
+// const expect = require('chai').expect;
+
+describe('board functions', () => {
+	it('find hightest legal row, column', () => {
+		const board = new Board();
+		let maxRow = -1;
+		let maxColumn = -1;
 		for (let row = 0; row < 7; row++) {
-			max_row = row;
+			maxRow = row;
 			for (let column = 0; column < 7; column++) {
 				if (!board.isLegal(row, column)) {
 					continue;
 				}
-				max_column = column;
+				maxColumn = column;
 			}
 		}
-		//        console.log("max_row "+max_row+" max_column "+max_column);
-		max_row.should.be.equal(6);
-		max_column.should.be.equal(4);
+		// console.log("maxRow "+maxRow+" maxColumn "+maxColumn);
+		maxRow.should.be.equal(6);
+		maxColumn.should.be.equal(4);
 	});
 });

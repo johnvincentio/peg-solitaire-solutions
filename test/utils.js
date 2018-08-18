@@ -1,7 +1,4 @@
-/* jshint node: true */
-/* jshint esnext: true */
-
-'use strict';
+//
 
 class Utils {
 	constructor(game) {
@@ -22,7 +19,7 @@ class Utils {
 			this.game.board.isOccupied(obj.via.row, obj.via.column).should.equal(false);
 			this.game.board.isOccupied(obj.to.row, obj.to.column).should.equal(true);
 		} else if (obj.status === 'None') {
-			let last = local.pop();
+			const last = local.pop();
 
 			this.game.moves[this.game.moves.length - 1].should.be.deep.equal(local[local.length - 1]);
 

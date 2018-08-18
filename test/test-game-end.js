@@ -1,64 +1,62 @@
-/* jshint node: true */
-/* jshint esnext: true */
-/* global describe, it*/
+//
 
-"use strict";
+/* global describe, it */
 
-const Game = require("../game");
-const Board = require("../board");
+const Game = require('../game');
+const Board = require('../board');
 
-var should = require("chai").should();
+// const should = require('chai').should();
 
-var expect = require("chai").expect;
+// const expect = require('chai').expect;
 
-describe("test end of game", function() {
-	it("game should be over", function() {
-		let board = new Board();
+describe('test end of game', () => {
+	it('game should be over', () => {
+		const board = new Board();
 		board.empty_board();
 		board.setOccupied(6, 2);
 
-		let game = new Game(board);
+		const game = new Game(board);
 
-		let move = {
-			status: "OK",
+		const move = {
+			status: 'OK',
 			from: { row: 6, column: 4 },
 			via: { row: 6, column: 3 },
 			to: { row: 6, column: 2 },
-			type: 4,
+			type: 4
 		};
 
 		game.moves.push(move);
 		game.from = { row: 0, column: 0, type: 0 };
 
-		game.handleNextMove({ status: "None" });
+		game.handleNextMove({ status: 'None' });
 
 		game.isGameOver().should.equal(true);
 	});
 
-	it("game should not be over", function() {
-		let board = new Board();
+	it('game should not be over', () => {
+		const board = new Board();
 		board.empty_board();
 		board.setOccupied(6, 2);
 
-		let game = new Game(board);
+		const game = new Game(board);
 
 		game.moves.push({
-			status: "OK",
+			status: 'OK',
 			from: { row: 6, column: 4 },
 			via: { row: 6, column: 3 },
 			to: { row: 6, column: 2 },
-			type: 4,
+			type: 4
 		});
 		game.moves.push({
-			status: "OK",
+			status: 'OK',
 			from: { row: 3, column: 4 },
 			via: { row: 3, column: 3 },
 			to: { row: 3, column: 2 },
-			type: 4,
+			type: 4
 		});
 		game.from = { row: 0, column: 0, type: 0 };
 
-		game.handleNextMove({ status: "None" });
+		game.handleNextMove({ status: 'None' });
 
 		game.isGameOver().should.equal(false);
 	});

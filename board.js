@@ -1,7 +1,4 @@
-/* jshint node: true */
-/* jshint esnext: true */
-
-"use strict";
+//
 
 class Board {
 	constructor() {
@@ -12,12 +9,14 @@ class Board {
 * initial setup of the board model
 */
 	init() {
+		let x;
+		let y;
 		this.rows = [];
-		for (var x = 0; x < 7; x++) {
-			var row = [];
-			for (var y = 0; y < 7; y++) {
-				var legal = true;
-				var occupied = true;
+		for (x = 0; x < 7; x++) {
+			const row = [];
+			for (y = 0; y < 7; y++) {
+				let legal = true;
+				let occupied = true;
 				if (!this.isLegal(x, y)) {
 					legal = false;
 					occupied = false;
@@ -25,7 +24,7 @@ class Board {
 				if (x === 3 && y === 3) {
 					occupied = false;
 				}
-				row.push({ legal: legal, occupied: occupied });
+				row.push({ legal, occupied });
 			}
 			this.rows.push(row);
 		}
@@ -36,15 +35,15 @@ class Board {
 */
 	empty_board() {
 		this.rows = [];
-		for (var x = 0; x < 7; x++) {
-			var row = [];
-			for (var y = 0; y < 7; y++) {
-				var legal = true;
-				var occupied = false;
+		for (let x = 0; x < 7; x++) {
+			const row = [];
+			for (let y = 0; y < 7; y++) {
+				let legal = true;
+				const occupied = false;
 				if (!this.isLegal(x, y)) {
 					legal = false;
 				}
-				row.push({ legal: legal, occupied: occupied });
+				row.push({ legal, occupied });
 			}
 			this.rows.push(row);
 		}
@@ -106,11 +105,11 @@ class Board {
 
 	makeMoveStatus(status, from_row, from_column, via_row, via_column, to_row, to_column, type) {
 		return {
-			status: status,
+			status,
 			from: { row: from_row, column: from_column },
 			via: { row: via_row, column: via_column },
 			to: { row: to_row, column: to_column },
-			type: type,
+			type
 		};
 	}
 
@@ -118,23 +117,23 @@ class Board {
 		for (let current = type; current < 5; current++) {
 			if (current === 1) {
 				if (this.isFromUpMoveLegal(row, column)) {
-					return this.makeMoveStatus("OK", row, column, row - 1, column, row - 2, column, current);
+					return this.makeMoveStatus('OK', row, column, row - 1, column, row - 2, column, current);
 				}
 			} else if (current === 2) {
 				if (this.isFromRightMoveLegal(row, column)) {
-					return this.makeMoveStatus("OK", row, column, row, column + 1, row, column + 2, current);
+					return this.makeMoveStatus('OK', row, column, row, column + 1, row, column + 2, current);
 				}
 			} else if (current === 3) {
 				if (this.isFromDownMoveLegal(row, column)) {
-					return this.makeMoveStatus("OK", row, column, row + 1, column, row + 2, column, current);
+					return this.makeMoveStatus('OK', row, column, row + 1, column, row + 2, column, current);
 				}
 			} else if (current === 4) {
 				if (this.isFromLeftMoveLegal(row, column)) {
-					return this.makeMoveStatus("OK", row, column, row, column - 1, row, column - 2, current);
+					return this.makeMoveStatus('OK', row, column, row, column - 1, row, column - 2, current);
 				}
 			}
 		}
-		return { status: "None" };
+		return { status: 'None' };
 	}
 
 	/*
@@ -150,8 +149,8 @@ class Board {
 */
 	makeMove(move) {
 		//        console.log(">>> makeMove; move "+JSON.stringify(move));
-		let { status, from, to, via } = move;
-		if (status !== "OK") {
+		const { status, from, to, via } = move;
+		if (status !== 'OK') {
 			throw Error(`Exception in makeMove(); move ${move} is invalid status`);
 		}
 
@@ -178,8 +177,8 @@ class Board {
 
 	deleteMove(move) {
 		//        console.log(">>> deleteMove; move "+JSON.stringify(move));
-		let { status, from, to, via } = move;
-		if (status !== "OK") {
+		const { status, from, to, via } = move;
+		if (status !== 'OK') {
 			throw Error(`Exception in deleteMove(); move ${move} is invalid status`);
 		}
 		this.setOccupied(from.row, from.column);
