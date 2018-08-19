@@ -7,8 +7,8 @@
     "test": "test"
   },
   "scripts": {
-		"start": "VICTORIES_DIR=/Users/jv/tmp/peg-solutions node main.js",
-		"checker": "VICTORIES_DIR=/Users/jv/tmp/peg-solutions node checker.js",
+		"start": "VICTORIES_DIR=/Users/jv/tmp/peg-solutions node src/main.js",
+		"checker": "VICTORIES_DIR=/Users/jv/tmp/peg-solutions node src/checker.js",
 		"leak": "VICTORIES_DIR=/Users/jv/tmp/peg-solutions node --inspect main.js",
     "jsdoc": "./node_modules/.bin/jsdoc -c ./jsdoc.json",
     "test": "mocha"
