@@ -4,7 +4,7 @@
 
 /* eslint-disable no-plusplus, no-continue */
 
-const Board = require('../board');
+const Board = require('../src/board');
 
 require('chai').should();
 

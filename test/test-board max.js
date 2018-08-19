@@ -4,7 +4,7 @@
 
 /* eslint-disable no-plusplus, no-continue */
 
-const Board = require('../board');
+const Board = require('../src/board');
 
 require('chai').should();
 
@@ -12,13 +12,12 @@ require('chai').should();
 
 describe('board functions', () => {
 	it('find hightest legal row, column', () => {
-		const board = new Board();
 		let maxRow = -1;
 		let maxColumn = -1;
 		for (let row = 0; row < 7; row++) {
 			maxRow = row;
 			for (let column = 0; column < 7; column++) {
-				if (!board.isLegal(row, column)) {
+				if (!Board.isLegal(row, column)) {
 					continue;
 				}
 				maxColumn = column;

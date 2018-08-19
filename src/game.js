@@ -6,7 +6,7 @@ const fs = require('fs');
 
 const Board = require('./board.js');
 
-const VICTORIES_DIR = 'victories';
+const { VICTORIES_DIR } = process.env;
 
 class Game {
 	constructor(board) {

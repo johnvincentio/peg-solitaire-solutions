@@ -4,8 +4,8 @@
 
 /* eslint-disable no-plusplus, no-continue */
 
-const Game = require('../game');
-const Board = require('../board');
+const Game = require('../src/game');
+const Board = require('../src/board');
 const Utils = require('./utils');
 
 // const should = require('chai').should();

@@ -6,7 +6,7 @@ const data = [];
 
 const fs = require('fs');
 
-const VICTORIES_DIR = 'victories';
+const { VICTORIES_DIR } = process.env;
 
 const files = fs.readdirSync(VICTORIES_DIR);
 

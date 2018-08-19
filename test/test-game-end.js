@@ -2,8 +2,8 @@
 
 /* global describe, it */
 
-const Game = require('../game');
-const Board = require('../board');
+const Game = require('../src/game');
+const Board = require('../src/board');
 
 // const should = require('chai').should();
 
