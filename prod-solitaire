@@ -7,11 +7,16 @@ PS_OUTPUT=$PS_TMP/output.log
 PS_ERROR=$PS_TMP/error.log
 PEG_SOLITAIRE_DIR=/home/jv/peg-solitaire-solutions
 #
+VICTORIES_DIR=$PS_TMP/victories
+export VICTORIES_DIR
+#
 echo "Create Peg Solitaire Solutions"
 echo ""
 echo "Output log $PS_OUTPUT"
 echo "Error log $PS_ERROR"
 echo ""
 echo "Peg Solitaire directory: $PEG_SOLITAIRE_DIR"
+echo ""
+echo "Victories directory: $VICTORIES_DIR"
 #
 (cd $PEG_SOLITAIRE_DIR; nohup node src/main > $PS_OUTPUT 2>$PS_ERROR) &
