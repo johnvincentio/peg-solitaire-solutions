@@ -13,9 +13,9 @@ class Board {
 		this.init();
 	}
 
-	/*
-* initial setup of the board model
-*/
+	/**
+	 * initial setup of the board model
+	 */
 	init() {
 		let x;
 		let y;
@@ -38,9 +38,9 @@ class Board {
 		}
 	}
 
-	/*
-* empty the board model
-*/
+	/**
+	 * empty the board model
+	 */
 	emptyBoard() {
 		this.rows = [];
 		for (let x = 0; x < 7; x++) {

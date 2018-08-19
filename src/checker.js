@@ -2,6 +2,13 @@
 
 /* eslint-disable no-plusplus */
 
+/**
+ * Check the Peg Solitaire solutions to verify they are correct.
+ *
+ * @module Checker
+ * @requires fs
+ */
+
 const data = [];
 
 const fs = require('fs');
