@@ -4,6 +4,14 @@
 
 /* eslint-disable no-plusplus, no-continue */
 
+/**
+ * Test max board
+ *
+ * @module test-board-max
+ * @requires chai
+ * @requires Board
+ */
+
 const Board = require('../src/board');
 
 require('chai').should();

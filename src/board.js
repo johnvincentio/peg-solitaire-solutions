@@ -2,6 +2,12 @@
 
 /* eslint-disable no-plusplus */
 
+/**
+ * Board models the solitaire board and handles all tasks related to the board.
+ *
+ * @class Board
+ */
+
 class Board {
 	constructor() {
 		this.init();

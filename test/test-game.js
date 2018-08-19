@@ -2,11 +2,16 @@
 
 /* global describe, it */
 
+/**
+ * Test game
+ *
+ * @module test-game
+ * @requires Game
+ * @requires Board
+ */
+
 const Game = require('../src/game');
 const Board = require('../src/board');
-
-// const should = require('chai').should();
-// const expect = require('chai').expect;
 
 describe('test moves', () => {
 	it('test start of the game', () => {

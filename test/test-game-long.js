@@ -4,12 +4,18 @@
 
 /* eslint-disable no-plusplus */
 
+/**
+ * Test a long game
+ *
+ * @module test-game-long
+ * @requires Game
+ * @requires Board
+ * @requires Utils
+ */
+
 const Game = require('../src/game');
 const Board = require('../src/board');
 const Utils = require('./utils');
-
-// const should = require('chai').should();
-// const expect = require('chai').expect;
 
 const testData = [
 	{ status: 'OK', from: { row: 1, column: 3 }, via: { row: 2, column: 3 }, to: { row: 3, column: 3 }, type: 3 },

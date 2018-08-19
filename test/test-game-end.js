@@ -2,12 +2,16 @@
 
 /* global describe, it */
 
+/**
+ * Test game end
+ *
+ * @module test-game-end
+ * @requires Game
+ * @requires Board
+ */
+
 const Game = require('../src/game');
 const Board = require('../src/board');
-
-// const should = require('chai').should();
-
-// const expect = require('chai').expect;
 
 describe('test end of game', () => {
 	it('game should be over', () => {

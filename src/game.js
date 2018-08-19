@@ -2,6 +2,17 @@
 
 /* eslint-disable no-plusplus, no-continue */
 
+/**
+ * Game module, iterates over all options.
+ * <pre>
+ * 1. Load modules
+ * 2. Start looking for solutions.
+ * </pre>
+ * @class Game
+ * @requires fs
+ * @requires Board
+ */
+
 const fs = require('fs');
 
 const Board = require('./board.js');

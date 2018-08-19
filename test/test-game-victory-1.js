@@ -4,12 +4,18 @@
 
 /* eslint-disable no-plusplus, no-continue */
 
+/**
+ * Test game victory
+ *
+ * @module test-game-victory
+ * @requires Game
+ * @requires Board
+ * @requires Utils
+ */
+
 const Game = require('../src/game');
 const Board = require('../src/board');
 const Utils = require('./utils');
-
-// const should = require('chai').should();
-// const expect = require('chai').expect;
 
 const testData = [];
 testData[0] = [
