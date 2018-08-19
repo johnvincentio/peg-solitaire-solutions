@@ -4,6 +4,10 @@
 
 const fs = require('fs');
 
+const Board = require('./board.js');
+
+const VICTORIES_DIR = 'victories';
+
 class Game {
 	constructor(board) {
 		this.board = board;
@@ -33,7 +37,7 @@ class Game {
 	}
 
 	writeVictory() {
-		fs.writeFileSync(`victories/${this.victories}.txt`, JSON.stringify(this.moves));
+		fs.writeFileSync(`${VICTORIES_DIR}/${this.victories}.txt`, JSON.stringify(this.moves));
 	}
 
 	/* eslint no-constant-condition: ["error", { "checkLoops": false }] */
@@ -65,7 +69,7 @@ class Game {
 	nextMove() {
 		for (let { row } = this.from; row < 7; row++) {
 			for (let { column } = this.from; column < 7; column++) {
-				if (!this.board.isLegal(row, column)) {
+				if (!Board.isLegal(row, column)) {
 					continue;
 				}
 				let startType = 1;

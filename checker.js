@@ -6,16 +6,14 @@ const data = [];
 
 const fs = require('fs');
 
-const victoriesDir = '../../victories-large';
+const VICTORIES_DIR = 'victories';
 
-// let victories_dir = './victories';
-
-const files = fs.readdirSync(victoriesDir);
+const files = fs.readdirSync(VICTORIES_DIR);
 
 files.forEach(file => {
 	console.log(`file :${file}`);
-	const obj = JSON.stringify(JSON.parse(fs.readFileSync(`${victoriesDir}/${file}`, 'utf8')));
-	//    console.log(obj);
+	const obj = JSON.stringify(JSON.parse(fs.readFileSync(`${VICTORIES_DIR}/${file}`, 'utf8')));
+	// console.log(obj);
 	data.push(obj);
 });
 

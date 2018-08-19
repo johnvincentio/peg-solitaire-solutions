@@ -6,3 +6,18 @@
 
 ☐ Check the 3 million solutuons to verify they are correct.
 
+
+node --inspect
+
+provides 
+> node --inspect main.js
+
+Debugger listening on ws://127.0.0.1:9229/d6e06c5c-8245-4db0-a9d4-1140a512bb05
+For help see https://nodejs.org/en/docs/inspector
+
+Open chrome
+chrome://inspect
+
+Target:
+	see node app in the list
+	Click: inspect

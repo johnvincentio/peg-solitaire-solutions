@@ -173,12 +173,12 @@ class Board {
 		this.setEmpty(via.row, via.column); // 6b
 		this.setOccupied(to.row, to.column); // 6c
 
-		//        console.log("<<< makeMove; move "+JSON.stringify(move));
+		// console.log("<<< makeMove; move "+JSON.stringify(move));
 		return true;
 	}
 
 	deleteMove(move) {
-		//        console.log(">>> deleteMove; move "+JSON.stringify(move));
+		// console.log(">>> deleteMove; move "+JSON.stringify(move));
 		const { status, from, to, via } = move;
 		if (status !== 'OK') {
 			throw Error(`Exception in deleteMove(); move ${move} is invalid status`);
@@ -186,7 +186,7 @@ class Board {
 		this.setOccupied(from.row, from.column);
 		this.setOccupied(via.row, via.column);
 		this.setEmpty(to.row, to.column);
-		//        console.log("<<< deleteMove; move "+JSON.stringify(move));
+		// console.log("<<< deleteMove; move "+JSON.stringify(move));
 	}
 
 	isFromUpMoveLegal(row, column) {
