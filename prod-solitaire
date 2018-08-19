@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+#  Start the peg solitaire solutions job
+#
+PS_TMP=/home/jv/tmp
+PS_OUTPUT=$PS_TMP/output.log
+PS_ERROR=$PS_TMP/error.log
+PEG_SOLITAIRE_DIR=/home/jv/peg-solitaire-solutions
+#
+echo "Create Peg Solitaire Solutions"
+echo ""
+echo "Output log $PS_OUTPUT"
+echo "Error log $PS_ERROR"
+echo ""
+echo "Peg Solitaire directory: $PEG_SOLITAIRE_DIR"
+#
+(cd $PEG_SOLITAIRE_DIR; nohup node main > $PS_OUTPUT 2>$PS_ERROR) &
