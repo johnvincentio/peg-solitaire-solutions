@@ -10,6 +10,8 @@ PEG_SOLITAIRE_DIR=/home/jv/peg-solitaire-solutions
 VICTORIES_DIR=$PS_TMP/victories
 export VICTORIES_DIR
 #
+mkdir $VICTORIES_DIR
+#
 echo "Create Peg Solitaire Solutions"
 echo ""
 echo "Output log $PS_OUTPUT"
