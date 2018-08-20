@@ -198,7 +198,7 @@ class Board {
 	 * </pre>
 	 */
 	makeMove(move) {
-		// console.log(">>> makeMove; move "+JSON.stringify(move));
+		// console.log(`>>> makeMove; move ${JSON.stringify(move)}`);
 		const { status, from, to, via } = move;
 		if (status !== 'OK') {
 			throw Error(`Exception in makeMove(); move ${move} is invalid status`);
@@ -221,7 +221,7 @@ class Board {
 		this.setEmpty(via.row, via.column); // 6b
 		this.setOccupied(to.row, to.column); // 6c
 
-		// console.log("<<< makeMove; move "+JSON.stringify(move));
+		// console.log(`<<< makeMove; move ${JSON.stringify(move)}`);
 		return true;
 	}
 

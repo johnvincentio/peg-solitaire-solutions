@@ -16,29 +16,26 @@ const fs = require('fs');
 
 const Game = require('./game.js');
 const Board = require('./board.js');
-const Utils = require('../test/utils.js');
 
 const args = process.argv.slice(2);
-console.log('args ', args);
-
-// const data = [];
+console.log('Checking file ', args[0]);
+// console.log('args ', args);
 
 const data = JSON.parse(fs.readFileSync(args[0], 'utf8'));
-console.log('data ', data);
+// console.log('data ', data);
+if (data.length !== 31) {
+	throw Error(`Exception in file ${args[0]}, incorrect length of ${data.length}`);
+}
 
-const game = new Game(new Board());
-const utils = new Utils(game);
+const board = new Board();
+const game = new Game(board);
 
 for (let dataIdx = 0; dataIdx < data.length; dataIdx++) {
-	const obj = game.nextMove(); // next move
-	console.log('obj ', obj);
-	// console.log(JSON.stringify(obj));
-	// obj.should.be.deep.equal(data[dataIdx]);
+	const obj = data[dataIdx]; // next move
+	// console.log('obj ', obj);
+	game.handleNextMove(obj);
+}
 
-	// game.handleNextMove(obj); // make the move
-
-	// utils.check(obj, local);
-
-	// game.isVictory().should.equal(false);
-	// game.victories.should.be.equal(0);
+if (!game.isVictory()) {
+	throw Error(`Exception in file ${args[0]}, expected victory condition`);
 }

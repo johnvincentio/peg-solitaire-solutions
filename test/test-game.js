@@ -15,6 +15,14 @@ const Board = require('../src/board');
 
 describe('test moves', () => {
 	it('test start of the game', () => {
+		const data = {
+			status: 'OK',
+			from: { row: 1, column: 3 },
+			via: { row: 2, column: 3 },
+			to: { row: 3, column: 3 },
+			type: 4
+		};
+
 		const game = new Game(new Board());
 		game.isVictory().should.be.a('boolean');
 		game.isVictory().should.equal(false);
