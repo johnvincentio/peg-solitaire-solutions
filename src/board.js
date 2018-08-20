@@ -57,10 +57,16 @@ class Board {
 		}
 	}
 
-	/*
-* The board is treated as a square, so the function is used to determine which squares are
-* within the board
-*/
+	/**
+	 * Determine whether this position is legal.
+	 *
+	 * The board is treated as a square, so the function is used to determine which squares are
+	 * within the board
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if is a legal position
+	 */
 	static isLegal(row, column) {
 		if (row < 0 || row > 6) {
 			return false;
@@ -76,6 +82,13 @@ class Board {
 		return true;
 	}
 
+	/**
+	 * Determine whether this position is occupied.
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if is occupied
+	 */
 	isOccupied(row, column) {
 		if (!Board.isLegal(row, column)) {
 			throw Error(`Exception in isOccupied(); row ${row} column ${column} is not legal`);
@@ -83,6 +96,13 @@ class Board {
 		return this.rows[row][column].occupied;
 	}
 
+	/**
+	 * Set this position to empty
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @throws {Error} if position is not legal
+	 */
 	setEmpty(row, column) {
 		if (!Board.isLegal(row, column)) {
 			throw Error(`Exception in setEmpty(); row ${row} column ${column} is not legal`);
@@ -90,6 +110,13 @@ class Board {
 		this.rows[row][column].occupied = false;
 	}
 
+	/**
+	 * Set this position to occupied
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @throws {Error} if position is not legal
+	 */
 	setOccupied(row, column) {
 		if (!Board.isLegal(row, column)) {
 			throw Error(`Exception in setEmpty(); row ${row} column ${column} is not legal`);
@@ -97,20 +124,19 @@ class Board {
 		this.rows[row][column].occupied = true;
 	}
 
-	/*
-* Look for any legal move from (row, column)
-*
-* Return:
-*    true => >= 1 legal move from (row, column) was found.
-*    false => there are no legal moves from (row, column)
-*/
-	//    anyLegalFromMoves(row, column) {
-	//        return this.isFromUpMoveLegal(row, column) ||
-	//                this.isFromDownMoveLegal(row, column) ||
-	//                this.isFromLeftMoveLegal(row, column) ||
-	//                this.isFromRightMoveLegal(row, column);
-	//    }
-
+	/**
+	 * Transform move status to an object
+	 *
+	 * @param {string} status - status
+	 * @param {number} fromRow - from row
+	 * @param {number} fromColumn - from column
+	 * @param {number} viaRow - via row
+	 * @param {number} viaColumn - via column
+	 * @param {number} toRow - to row
+	 * @param {number} toColumn - to column
+	 * @param {number} type - move type
+	 * @return {Object} Move object
+	 */
 	static makeMoveStatus(status, fromRow, fromColumn, viaRow, viaColumn, toRow, toColumn, type) {
 		return {
 			status,
@@ -121,6 +147,14 @@ class Board {
 		};
 	}
 
+	/**
+	 * Find the next possible move
+	 *
+	 * @param {number} row - from row
+	 * @param {number} column - from column
+	 * @param {number} type - begin with this move type
+	 * @return {Object} Move object
+	 */
 	findMove(row, column, type) {
 		for (let current = type; current < 5; current++) {
 			if (current === 1) {
@@ -144,17 +178,25 @@ class Board {
 		return { status: 'None' };
 	}
 
-	/*
-* 1. Verify from and to are the 2 tiles apart, on a straight line.
-* 2. Calculate the tile between from & to.
-* 3. Verify from tile is legal and is occupied.
-* 4. Verify in between tile is legal and is occupied.
-* 5. Verify to tile is legal and is not occupied.
-* 6. Update data model:
-* 6a. Set from tile to empty
-* 6b. Set in between tile to empty
-* 6c. Set to tile to occupied.
-*/
+	/**
+	 * Make this move
+	 *
+	 * @param {Object} move - move to make
+	 * @return {Object} Move object
+	 * @throws {Error} if move is not valid
+	 *
+	 * <pre>
+	 * 1. Verify from and to are the 2 tiles apart, on a straight line.
+	 * 2. Calculate the tile between from & to.
+	 * 3. Verify from tile is legal and is occupied.
+	 * 4. Verify in between tile is legal and is occupied.
+	 * 5. Verify to tile is legal and is not occupied.
+	 * 6. Update data model:
+	 * 6a. Set from tile to empty
+	 * 6b. Set in between tile to empty
+	 * 6c. Set to tile to occupied.
+	 * </pre>
+	 */
 	makeMove(move) {
 		// console.log(">>> makeMove; move "+JSON.stringify(move));
 		const { status, from, to, via } = move;
@@ -183,6 +225,12 @@ class Board {
 		return true;
 	}
 
+	/**
+	 * Delete this move
+	 *
+	 * @param {Object} move - move to delete
+	 * @throws {Error} if move is not valid
+	 */
 	deleteMove(move) {
 		// console.log(">>> deleteMove; move "+JSON.stringify(move));
 		const { status, from, to, via } = move;
@@ -195,6 +243,13 @@ class Board {
 		// console.log("<<< deleteMove; move "+JSON.stringify(move));
 	}
 
+	/**
+	 * Determine whether moving up is legal
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if legal
+	 */
 	isFromUpMoveLegal(row, column) {
 		return (
 			Board.isLegal(row, column) &&
@@ -205,6 +260,14 @@ class Board {
 			!this.isOccupied(row - 2, column)
 		);
 	}
+
+	/**
+	 * Determine whether moving right is legal
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if legal
+	 */
 	isFromRightMoveLegal(row, column) {
 		return (
 			Board.isLegal(row, column) &&
@@ -215,6 +278,14 @@ class Board {
 			!this.isOccupied(row, column + 2)
 		);
 	}
+
+	/**
+	 * Determine whether moving down is legal
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if legal
+	 */
 	isFromDownMoveLegal(row, column) {
 		return (
 			Board.isLegal(row, column) &&
@@ -225,6 +296,14 @@ class Board {
 			!this.isOccupied(row + 2, column)
 		);
 	}
+
+	/**
+	 * Determine whether moving left is legal
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if legal
+	 */
 	isFromLeftMoveLegal(row, column) {
 		return (
 			Board.isLegal(row, column) &&
