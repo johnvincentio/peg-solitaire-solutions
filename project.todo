@@ -1,11 +1,16 @@
+
+
 ☐ Failed after > 3 million solutions. Why?
 
 ☐ Look for a memory leak.
 
-☐ Update code to latest standards.
+✔ Update code to latest standards. @done (2018-8-20 06:38:17)
 
 ☐ Check the 3 million solutuons to verify they are correct.
 
+✔ JSDoc the code @done (2018-8-20 06:37:55)
+
+☐ Checker to verify each solution is correct.
 
 node --inspect
 

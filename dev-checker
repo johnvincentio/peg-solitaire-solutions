@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+#  Check the peg solitaire solutions
+#
+PS_HOME=/Users/jv
+PS_TMP=$PS_HOME/tmp
+PS_OUTPUT=$PS_TMP/checker_output.log
+PS_ERROR=$PS_TMP/checker_error.log
+PEG_SOLITAIRE_DIR=$PS_HOME/Desktop/MyDevelopment/github/thinkful/peg-solitaire-solutions
+#
+VICTORIES_DIR=$PS_TMP/peg-solitaire-solutions/victories
+export VICTORIES_DIR
+#
+mkdir -p $VICTORIES_DIR
+#
+echo "Check Peg Solitaire Solutions"
+echo ""
+echo "Output log $PS_OUTPUT"
+echo "Error log $PS_ERROR"
+echo ""
+echo "Peg Solitaire directory: $PEG_SOLITAIRE_DIR"
+echo ""
+echo "Victories directory: $VICTORIES_DIR"
+#
+# (cd $PEG_SOLITAIRE_DIR; nohup node src/checker > $PS_OUTPUT 2>$PS_ERROR) &
+
+(cd $PEG_SOLITAIRE_DIR; node src/checker )
