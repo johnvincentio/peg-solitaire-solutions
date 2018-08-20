@@ -15,9 +15,9 @@ class Utils {
 			this.game.from.column.should.be.equal(0);
 			this.game.from.type.should.be.equal(0);
 
-			this.game.board.isOccupied(obj.from.row, obj.from.column).should.equal(false);
-			this.game.board.isOccupied(obj.via.row, obj.via.column).should.equal(false);
-			this.game.board.isOccupied(obj.to.row, obj.to.column).should.equal(true);
+			this.game.isOccupied(obj.from.row, obj.from.column).should.equal(false);
+			this.game.isOccupied(obj.via.row, obj.via.column).should.equal(false);
+			this.game.isOccupied(obj.to.row, obj.to.column).should.equal(true);
 		} else if (obj.status === 'None') {
 			const last = local.pop();
 
@@ -27,9 +27,9 @@ class Utils {
 			this.game.from.column.should.be.equal(last.from.column);
 			this.game.from.type.should.be.equal(last.type);
 
-			this.game.board.isOccupied(last.from.row, last.from.column).should.equal(true);
-			this.game.board.isOccupied(last.via.row, last.via.column).should.equal(true);
-			this.game.board.isOccupied(last.to.row, last.to.column).should.equal(false);
+			this.game.isOccupied(last.from.row, last.from.column).should.equal(true);
+			this.game.isOccupied(last.via.row, last.via.column).should.equal(true);
+			this.game.isOccupied(last.to.row, last.to.column).should.equal(false);
 		} else {
 			throw Error(`Exception; unknown status ${JSON.stringify(obj)}`);
 		}

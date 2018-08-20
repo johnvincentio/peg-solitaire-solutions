@@ -7,19 +7,15 @@
  *
  * @module test-game-end
  * @requires Game
- * @requires Board
  */
 
 const Game = require('../src/game');
-const Board = require('../src/board');
 
 describe('test end of game', () => {
 	it('game should be over', () => {
-		const board = new Board();
-		board.emptyBoard();
-		board.setOccupied(6, 2);
-
-		const game = new Game(board);
+		const game = new Game();
+		game.emptyBoard();
+		game.setOccupied(6, 2);
 
 		const move = {
 			status: 'OK',
@@ -38,11 +34,9 @@ describe('test end of game', () => {
 	});
 
 	it('game should not be over', () => {
-		const board = new Board();
-		board.emptyBoard();
-		board.setOccupied(6, 2);
-
-		const game = new Game(board);
+		const game = new Game();
+		game.emptyBoard();
+		game.setOccupied(6, 2);
 
 		game.moves.push({
 			status: 'OK',

@@ -9,12 +9,10 @@
  *
  * @module test-game-victory
  * @requires Game
- * @requires Board
  * @requires Utils
  */
 
 const Game = require('../src/game');
-const Board = require('../src/board');
 const Utils = require('./utils');
 
 const testData = [];
@@ -86,7 +84,7 @@ testData[1] = [
 ];
 
 function testVictory(data) {
-	const game = new Game(new Board());
+	const game = new Game();
 	const utils = new Utils(game);
 
 	const local = [];

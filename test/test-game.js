@@ -7,11 +7,9 @@
  *
  * @module test-game
  * @requires Game
- * @requires Board
  */
 
 const Game = require('../src/game');
-const Board = require('../src/board');
 
 describe('test moves', () => {
 	it('test start of the game', () => {
@@ -23,7 +21,7 @@ describe('test moves', () => {
 			type: 4
 		};
 
-		const game = new Game(new Board());
+		const game = new Game();
 		game.isVictory().should.be.a('boolean');
 		game.isVictory().should.equal(false);
 		game.victories.should.be.equal(0);

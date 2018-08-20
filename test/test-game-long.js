@@ -9,12 +9,10 @@
  *
  * @module test-game-long
  * @requires Game
- * @requires Board
  * @requires Utils
  */
 
 const Game = require('../src/game');
-const Board = require('../src/board');
 const Utils = require('./utils');
 
 const testData = [
@@ -82,7 +80,7 @@ const testData = [
 
 describe('test long game', () => {
 	it('test forward moves', () => {
-		const game = new Game(new Board());
+		const game = new Game();
 		const utils = new Utils(game);
 
 		const local = [];

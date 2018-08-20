@@ -8,15 +8,11 @@
  * </pre>
  * @module Main
  * @requires Game
- * @requires Board
  */
 
 const Game = require('./game.js');
-const Board = require('./board.js');
 
-const board = new Board();
-const game = new Game(board);
-
+const game = new Game();
 game.start();
 
 console.log('********** Game Exited ********');

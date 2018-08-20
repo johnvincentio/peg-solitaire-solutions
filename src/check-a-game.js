@@ -8,14 +8,12 @@
  * @module CheckGame
  * @requires fs
  * @requires Game
- * @requires Board
  * @requires Utils
  */
 
 const fs = require('fs');
 
 const Game = require('./game.js');
-const Board = require('./board.js');
 
 const args = process.argv.slice(2);
 console.log('Checking file ', args[0]);
@@ -27,8 +25,7 @@ if (data.length !== 31) {
 	throw Error(`Exception in file ${args[0]}, incorrect length of ${data.length}`);
 }
 
-const board = new Board();
-const game = new Game(board);
+const game = new Game();
 
 for (let dataIdx = 0; dataIdx < data.length; dataIdx++) {
 	const obj = data[dataIdx]; // next move
