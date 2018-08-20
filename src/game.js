@@ -117,6 +117,7 @@ class Game {
 			this.handleNextMove(move);
 			if (this.isVictory()) {
 				this.handleVictory(true);
+				this.deleteMove();
 			}
 			if (this.isGameOver()) {
 				break;
@@ -137,7 +138,6 @@ class Game {
 		if (save) {
 			this.writeVictory();
 		}
-		this.handleNextMove({ status: 'None' });
 	}
 
 	/**
