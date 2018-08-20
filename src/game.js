@@ -121,6 +121,7 @@ class Game {
 			if (this.isGameOver()) {
 				break;
 			}
+			// this.deleteMove();
 		}
 		console.log(`Ended at ${new Date().getTime()}`);
 	}
@@ -199,16 +200,9 @@ class Game {
 	 */
 	handleNextMove(move) {
 		if (move.status === 'OK') {
-			if (this.moves.length <= 0) {
-				console.log(`--- First Move ${JSON.stringify(move)} at ${new Date().getTime()}`);
-			}
 			this.makeMove(move);
-			this.moves.push(move);
-			this.from = { row: 0, column: 0, type: 0 };
 		} else if (move.status === 'None') {
-			const lastMove = this.moves.pop();
-			this.deleteMove(lastMove);
-			this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
+			this.deleteMove();
 		} else {
 			throw Error(`Exception in start(); move ${move} is invalid status`);
 		}
@@ -235,6 +229,10 @@ class Game {
 	 */
 	makeMove(move) {
 		// console.log(`>>> makeMove; move ${JSON.stringify(move)}`);
+		if (this.moves.length <= 0) {
+			console.log(`--- First Move ${JSON.stringify(move)} at ${new Date().getTime()}`);
+		}
+
 		const { status, from, to, via } = move;
 		if (status !== 'OK') {
 			throw Error(`Exception in makeMove(); move ${move} is invalid status`);
@@ -257,26 +255,32 @@ class Game {
 		this.setEmpty(via.row, via.column); // 6b
 		this.setOccupied(to.row, to.column); // 6c
 
+		this.moves.push(move);
+		this.from = { row: 0, column: 0, type: 0 };
+
 		// console.log(`<<< makeMove; move ${JSON.stringify(move)}`);
 		return true;
 	}
 
 	/**
-	 * Delete this move
+	 * Delete last move
 	 *
-	 * @param {Object} move - move to delete
 	 * @throws {Error} if move is not valid
 	 */
-	deleteMove(move) {
-		// console.log(">>> deleteMove; move "+JSON.stringify(move));
-		const { status, from, to, via } = move;
+	deleteMove() {
+		// console.log(">>> deleteMove");
+		const lastMove = this.moves.pop();
+
+		const { status, from, to, via } = lastMove;
 		if (status !== 'OK') {
-			throw Error(`Exception in deleteMove(); move ${move} is invalid status`);
+			throw Error(`Exception in deleteMove(); move ${lastMove} is invalid status`);
 		}
 		this.setOccupied(from.row, from.column);
 		this.setOccupied(via.row, via.column);
 		this.setEmpty(to.row, to.column);
-		// console.log("<<< deleteMove; move "+JSON.stringify(move));
+
+		this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
+		// console.log("<<< deleteMove");
 	}
 
 	/**
@@ -416,6 +420,19 @@ class Game {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Determine whether this position is legal.
+	 *
+	 * The board is treated as a square, so the function is used to determine which squares are
+	 * within the board
+	 *
+	 * @param {number} type - type
+	 * @return {boolean} - true if is a legal type
+	 */
+	static isTypeLegal(type) {
+		return type > 0 && type < 5;
 	}
 
 	/**
