@@ -43,7 +43,7 @@ function testVictory(data) {
 	data.length.should.be.equal(31);
 }
 
-describe.only('test actual victories', () => {
+describe('test actual victories', () => {
 	it('test victory game 1', () => {
 		testVictory(victories[0]);
 	});

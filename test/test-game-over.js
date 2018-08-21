@@ -24,11 +24,10 @@ describe('test end of game', () => {
 			to: { row: 6, column: 2 },
 			type: 4
 		};
-
 		game.moves.push(move);
 		game.from = { row: 0, column: 0, type: 0 };
 
-		game.handleNextMove();
+		game.deleteMove();
 
 		game.isGameOver().should.equal(true);
 	});
@@ -54,7 +53,7 @@ describe('test end of game', () => {
 		});
 		game.from = { row: 0, column: 0, type: 0 };
 
-		game.handleNextMove({ status: 'None' });
+		game.deleteMove();
 
 		game.isGameOver().should.equal(false);
 	});
