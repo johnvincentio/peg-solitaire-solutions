@@ -28,6 +28,7 @@ describe.only('test finding the first series of victories', () => {
 		const utils = new Utils(game);
 
 		console.log(`Started at ${new Date().getTime()}`);
+		console.log(`Searching for the first ${TOTAL_VICTORIES} victories`);
 		while (true) {
 			game.nextMove();
 			game.handleNextMove();
@@ -35,6 +36,9 @@ describe.only('test finding the first series of victories', () => {
 				game.handleVictory(false);
 
 				utils.checkVictory(victories[game.victories - 1]);
+				if (game.victories >= TOTAL_VICTORIES) {
+					break;
+				}
 
 				game.deleteMove();
 			}
@@ -43,19 +47,5 @@ describe.only('test finding the first series of victories', () => {
 			}
 		}
 		console.log(`Ended at ${new Date().getTime()}`);
-
-		// const local = [];
-		// for (let dataIdx = 0; dataIdx < testData.length; dataIdx++) {
-		// 	game.nextMove();
-		// 	const obj = game.currentMove;
-		// 	obj.should.be.deep.equal(testData[dataIdx]);
-
-		// 	game.handleNextMove(obj); // make the move
-
-		// 	utils.check(obj, local);
-
-		// 	game.isVictory().should.equal(false);
-		// 	game.victories.should.be.equal(0);
-		// }
-	});
+	}).timeout(150000);
 });
