@@ -28,7 +28,7 @@ describe('test end of game', () => {
 		game.moves.push(move);
 		game.from = { row: 0, column: 0, type: 0 };
 
-		game.handleNextMove({ status: 'None' });
+		game.handleNextMove();
 
 		game.isGameOver().should.equal(true);
 	});

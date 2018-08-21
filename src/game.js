@@ -22,6 +22,13 @@ class Game {
 		this.victories = 0;
 		this.from = { row: 0, column: 0, type: 0 };
 		this.init();
+		this.currentMove = {
+			status: 'Error',
+			from: { row: -1, column: -1 },
+			via: { row: -1, column: -1 },
+			to: { row: -1, column: -1 },
+			type: -1
+		};
 	}
 
 	/**
@@ -113,8 +120,8 @@ class Game {
 	start() {
 		console.log(`Started at ${new Date().getTime()}`);
 		while (true) {
-			const move = this.nextMove();
-			this.handleNextMove(move);
+			this.nextMove();
+			this.handleNextMove();
 			if (this.isVictory()) {
 				this.handleVictory(true);
 				this.deleteMove();
@@ -122,7 +129,6 @@ class Game {
 			if (this.isGameOver()) {
 				break;
 			}
-			// this.deleteMove();
 		}
 		console.log(`Ended at ${new Date().getTime()}`);
 	}
@@ -142,6 +148,8 @@ class Game {
 
 	/**
 	 * Look for the next move
+	 *
+	 * @return {boolean} true if a possible next move was found
 	 */
 	nextMove() {
 		for (let { row } = this.from; row < 7; row++) {
@@ -153,13 +161,13 @@ class Game {
 				if (row === this.from.row && column === this.from.column) {
 					startType = this.from.type + 1;
 				}
-				const move = this.findMove(row, column, startType);
-				if (move.status === 'OK') {
-					return move;
+				if (this.findMove(row, column, startType)) {
+					return true;
 				}
 			}
 		}
-		return { status: 'None' };
+		this.makeNoMoveStatus();
+		return false;
 	}
 
 	/**
@@ -168,50 +176,51 @@ class Game {
 	 * @param {number} row - from row
 	 * @param {number} column - from column
 	 * @param {number} type - begin with this move type
-	 * @return {Object} Move object
+	 * @return {boolean} true if a possible move was found
 	 */
 	findMove(row, column, type) {
 		for (let current = type; current < 5; current++) {
 			if (current === 1) {
 				if (this.isFromUpMoveLegal(row, column)) {
-					return Game.makeMoveStatus('OK', row, column, row - 1, column, row - 2, column, current);
+					this.makeMoveStatus('OK', row, column, row - 1, column, row - 2, column, current);
+					return true;
 				}
 			} else if (current === 2) {
 				if (this.isFromRightMoveLegal(row, column)) {
-					return Game.makeMoveStatus('OK', row, column, row, column + 1, row, column + 2, current);
+					this.makeMoveStatus('OK', row, column, row, column + 1, row, column + 2, current);
+					return true;
 				}
 			} else if (current === 3) {
 				if (this.isFromDownMoveLegal(row, column)) {
-					return Game.makeMoveStatus('OK', row, column, row + 1, column, row + 2, column, current);
+					this.makeMoveStatus('OK', row, column, row + 1, column, row + 2, column, current);
+					return true;
 				}
 			} else if (current === 4) {
 				if (this.isFromLeftMoveLegal(row, column)) {
-					return Game.makeMoveStatus('OK', row, column, row, column - 1, row, column - 2, current);
+					this.makeMoveStatus('OK', row, column, row, column - 1, row, column - 2, current);
+					return true;
 				}
 			}
 		}
-		return { status: 'None' };
+		return false;
 	}
 
 	/**
 	 * Handle next move
-	 *
-	 * @param {object} move - current move
 	 */
-	handleNextMove(move) {
-		if (move.status === 'OK') {
-			this.makeMove(move);
-		} else if (move.status === 'None') {
+	handleNextMove() {
+		if (this.currentMove.status === 'OK') {
+			this.makeMove();
+		} else if (this.currentMove.status === 'None') {
 			this.deleteMove();
 		} else {
-			throw Error(`Exception in start(); move ${move} is invalid status`);
+			throw Error(`Exception in start(); move ${this.currentMove.status} is invalid status`);
 		}
 	}
 
 	/**
 	 * Make this move
 	 *
-	 * @param {Object} move - move to make
 	 * @return {Object} Move object
 	 * @throws {Error} if move is not valid
 	 *
@@ -227,35 +236,36 @@ class Game {
 	 * 6c. Set to tile to occupied.
 	 * </pre>
 	 */
-	makeMove(move) {
+	makeMove() {
+		// TODO; use this.currentMove instead.
 		// console.log(`>>> makeMove; move ${JSON.stringify(move)}`);
 		if (this.moves.length <= 0) {
-			console.log(`--- First Move ${JSON.stringify(move)} at ${new Date().getTime()}`);
+			console.log(`--- First Move ${JSON.stringify(this.currentMove)} at ${new Date().getTime()}`);
 		}
 
-		const { status, from, to, via } = move;
+		const { status, from, to, via } = this.currentMove;
 		if (status !== 'OK') {
-			throw Error(`Exception in makeMove(); move ${move} is invalid status`);
+			throw Error(`Exception in makeMove(); move ${this.currentMove} is invalid status`);
 		}
 
 		if (!Game.isLegal(from.row, from.column) || !this.isOccupied(from.row, from.column)) {
 			// 3
-			throw Error(`Exception in makeMove(); from in ${move} is invalid`);
+			throw Error(`Exception in makeMove(); from in ${this.currentMove} is invalid`);
 		}
 		if (!Game.isLegal(via.row, via.column) || !this.isOccupied(via.row, via.column)) {
 			// 4
-			throw Error(`Exception in makeMove(); via in ${move} is invalid`);
+			throw Error(`Exception in makeMove(); via in ${this.currentMove} is invalid`);
 		}
 		if (!Game.isLegal(to.row, to.column) || this.isOccupied(to.row, to.column)) {
 			// 5
-			throw Error(`Exception in makeMove(); to in ${move} is invalid`);
+			throw Error(`Exception in makeMove(); to in ${this.currentMove} is invalid`);
 		}
 
 		this.setEmpty(from.row, from.column); // 6a
 		this.setEmpty(via.row, via.column); // 6b
 		this.setOccupied(to.row, to.column); // 6c
 
-		this.moves.push(move);
+		this.moves.push(this.currentMove);
 		this.from = { row: 0, column: 0, type: 0 };
 
 		// console.log(`<<< makeMove; move ${JSON.stringify(move)}`);
@@ -448,13 +458,26 @@ class Game {
 	 * @param {number} type - move type
 	 * @return {Object} Move object
 	 */
-	static makeMoveStatus(status, fromRow, fromColumn, viaRow, viaColumn, toRow, toColumn, type) {
-		return {
+	makeMoveStatus(status, fromRow, fromColumn, viaRow, viaColumn, toRow, toColumn, type) {
+		this.currentMove = {
 			status,
 			from: { row: fromRow, column: fromColumn },
 			via: { row: viaRow, column: viaColumn },
 			to: { row: toRow, column: toColumn },
 			type
+		};
+	}
+
+	/**
+	 * Set move status to no move found
+	 */
+	makeNoMoveStatus() {
+		this.currentMove = {
+			status: 'None',
+			from: { row: -1, column: -1 },
+			via: { row: -1, column: -1 },
+			to: { row: -1, column: -1 },
+			type: -1
 		};
 	}
 }
