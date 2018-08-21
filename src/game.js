@@ -242,9 +242,58 @@ class Game {
 		// 	console.log(`--- First Move ${JSON.stringify(this.currentMove)} at ${new Date().getTime()}`);
 		// }
 
-		const { status, from, to, via } = this.currentMove;
+		const { status, from, to, via, type } = this.currentMove;
 		if (status !== 'OK') {
 			throw Error(`Exception in makeMove(); move ${this.currentMove} is invalid status`);
+		}
+
+		if (!Game.isTypeLegal(type)) {
+			throw Error(`Exception in makeMove(); type ${type} in ${this.currentMove} is invalid`);
+		}
+
+		switch (type) {
+			case 1: // move up
+				if (
+					via.row !== from.row - 1 ||
+					to.row !== from.row - 2 ||
+					via.column !== from.column ||
+					to.column !== from.column
+				) {
+					throw Error(`Exception in makeMove(); ${this.currentMove} is not a possible move`);
+				}
+				break;
+			case 2: // move right
+				if (
+					via.row !== from.row ||
+					to.row !== from.row ||
+					via.column !== from.column + 1 ||
+					to.column !== from.column + 2
+				) {
+					throw Error(`Exception in makeMove(); ${this.currentMove} is not a possible move`);
+				}
+				break;
+			case 3: // move down
+				if (
+					via.row !== from.row + 1 ||
+					to.row !== from.row + 2 ||
+					via.column !== from.column ||
+					to.column !== from.column
+				) {
+					throw Error(`Exception in makeMove(); ${this.currentMove} is not a possible move`);
+				}
+				break;
+			case 4: // move left
+				if (
+					via.row !== from.row ||
+					to.row !== from.row ||
+					via.column !== from.column - 1 ||
+					to.column !== from.column - 2
+				) {
+					throw Error(`Exception in makeMove(); ${this.currentMove} is not a possible move`);
+				}
+				break;
+			default:
+				break;
 		}
 
 		if (!Game.isLegal(from.row, from.column) || !this.isOccupied(from.row, from.column)) {
