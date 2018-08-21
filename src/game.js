@@ -244,11 +244,11 @@ class Game {
 
 		const { status, from, to, via, type } = this.currentMove;
 		if (status !== 'OK') {
-			throw Error(`Exception in makeMove(); move ${this.currentMove} is invalid status`);
+			throw Error(`Exception in makeMove(); move ${JSON.stringify(this.currentMove)} is invalid status`);
 		}
 
 		if (!Game.isTypeLegal(type)) {
-			throw Error(`Exception in makeMove(); type ${type} in ${this.currentMove} is invalid`);
+			throw Error(`Exception in makeMove(); type ${type} in ${JSON.stringify(this.currentMove)} is invalid`);
 		}
 
 		switch (type) {
@@ -259,7 +259,7 @@ class Game {
 					via.column !== from.column ||
 					to.column !== from.column
 				) {
-					throw Error(`Exception in makeMove(); ${this.currentMove} is not a possible move`);
+					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
 				}
 				break;
 			case 2: // move right
@@ -269,7 +269,7 @@ class Game {
 					via.column !== from.column + 1 ||
 					to.column !== from.column + 2
 				) {
-					throw Error(`Exception in makeMove(); ${this.currentMove} is not a possible move`);
+					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
 				}
 				break;
 			case 3: // move down
@@ -279,7 +279,7 @@ class Game {
 					via.column !== from.column ||
 					to.column !== from.column
 				) {
-					throw Error(`Exception in makeMove(); ${this.currentMove} is not a possible move`);
+					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
 				}
 				break;
 			case 4: // move left
@@ -289,7 +289,7 @@ class Game {
 					via.column !== from.column - 1 ||
 					to.column !== from.column - 2
 				) {
-					throw Error(`Exception in makeMove(); ${this.currentMove} is not a possible move`);
+					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
 				}
 				break;
 			default:
@@ -298,15 +298,15 @@ class Game {
 
 		if (!Game.isLegal(from.row, from.column) || !this.isOccupied(from.row, from.column)) {
 			// 3
-			throw Error(`Exception in makeMove(); from in ${this.currentMove} is invalid`);
+			throw Error(`Exception in makeMove(); from in ${JSON.stringify(this.currentMove)} is invalid`);
 		}
 		if (!Game.isLegal(via.row, via.column) || !this.isOccupied(via.row, via.column)) {
 			// 4
-			throw Error(`Exception in makeMove(); via in ${this.currentMove} is invalid`);
+			throw Error(`Exception in makeMove(); via in ${JSON.stringify(this.currentMove)} is invalid`);
 		}
 		if (!Game.isLegal(to.row, to.column) || this.isOccupied(to.row, to.column)) {
 			// 5
-			throw Error(`Exception in makeMove(); to in ${this.currentMove} is invalid`);
+			throw Error(`Exception in makeMove(); to in ${JSON.stringify(this.currentMove)} is invalid`);
 		}
 
 		this.setEmpty(from.row, from.column); // 6a
