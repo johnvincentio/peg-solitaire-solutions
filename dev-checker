@@ -13,7 +13,19 @@ export VICTORIES_DIR
 #
 mkdir -p $VICTORIES_DIR
 #
-echo "Check Peg Solitaire Solutions"
+echo ""
+echo "Check that each Peg Solitaire Solutions is valid"
+echo ""
+#
+
+for FILE in `ls $VICTORIES_DIR`
+do
+	NEXT_FILE=$VICTORIES_DIR/$FILE
+	echo "Checking file $NEXT_FILE for validity"
+	(cd $PEG_SOLITAIRE_DIR; node src/check-a-game $NEXT_FILE)
+done
+#
+echo "Check that Peg Solitaire Solutions are unique"
 echo ""
 echo "Output log $PS_OUTPUT"
 echo "Error log $PS_ERROR"
@@ -22,6 +34,7 @@ echo "Peg Solitaire directory: $PEG_SOLITAIRE_DIR"
 echo ""
 echo "Victories directory: $VICTORIES_DIR"
 #
-# (cd $PEG_SOLITAIRE_DIR; nohup node src/checker > $PS_OUTPUT 2>$PS_ERROR) &
-
 (cd $PEG_SOLITAIRE_DIR; node src/checker )
+echo ""
+echo "All tasks complete"
+echo ""
