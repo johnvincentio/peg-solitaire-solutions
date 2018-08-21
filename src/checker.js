@@ -18,13 +18,13 @@ const { VICTORIES_DIR } = process.env;
 const files = fs.readdirSync(VICTORIES_DIR);
 
 files.forEach(file => {
-	console.log(`file :${file}`);
+	// console.log(`file :${file}`);
 	const obj = JSON.stringify(JSON.parse(fs.readFileSync(`${VICTORIES_DIR}/${file}`, 'utf8')));
 	// console.log(obj);
 	data.push(obj);
 });
 
-console.log(`data.length ${data.length}`);
+console.log(`Number of files to check: ${data.length}`);
 
 for (let idx = 0; idx < data.length; idx++) {
 	const check = data[idx];
