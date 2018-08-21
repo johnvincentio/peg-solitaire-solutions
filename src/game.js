@@ -13,7 +13,7 @@
 
 const fs = require('fs');
 
-const { VICTORIES_DIR } = process.env;
+const { VICTORIES_DIR, VICTORIES_LOG } = process.env;
 
 class Game {
 	constructor() {
@@ -140,7 +140,9 @@ class Game {
 	 */
 	handleVictory(save) {
 		this.victories++;
-		console.log(`*** Victory ${this.victories} has been found at ${new Date().getTime()} ***`);
+		if (VICTORIES_LOG === 'true') {
+			console.log(`*** Victory ${this.victories} has been found at ${new Date().getTime()} ***`);
+		}
 		if (save) {
 			this.writeVictory();
 		}

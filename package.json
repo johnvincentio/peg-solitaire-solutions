@@ -7,9 +7,9 @@
     "test": "test"
   },
   "scripts": {
-		"start": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories node src/main.js",
-		"checker": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories node src/checker.js",
-		"leak": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories node --inspect src/main.js",
+		"start": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories VICTORIES_LOG=true node src/main.js",
+		"checker": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories VICTORIES_LOG=true node src/checker.js",
+		"inspect": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories VICTORIES_LOG=true node --inspect src/main.js",
     "jsdoc": "./node_modules/.bin/jsdoc -c ./jsdoc.json",
     "test": "mocha"
   },

@@ -10,6 +10,9 @@ PEG_SOLITAIRE_DIR=/home/jv/peg-solitaire-solutions
 VICTORIES_DIR=$PS_TMP/victories
 export VICTORIES_DIR
 #
+VICTORIES_LOG=false
+export VICTORIES_LOG
+#
 echo "Check Peg Solitaire Solutions"
 echo ""
 echo "Output log $PS_OUTPUT"
@@ -18,5 +21,6 @@ echo ""
 echo "Peg Solitaire directory: $PEG_SOLITAIRE_DIR"
 echo ""
 echo "Victories directory: $VICTORIES_DIR"
+echo "Victories log: $VICTORIES_LOG"
 #
 (cd $PEG_SOLITAIRE_DIR; nohup node src/checker > $PS_OUTPUT 2>$PS_ERROR) &
