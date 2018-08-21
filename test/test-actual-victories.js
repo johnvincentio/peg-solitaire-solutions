@@ -5,9 +5,9 @@
 /* eslint-disable no-plusplus, no-continue */
 
 /**
- * Test game victory
+ * Test actual victories
  *
- * @module test-game-victory-1
+ * @module test-actual-victories
  * @requires Game
  * @requires Utils
  */
@@ -43,12 +43,44 @@ function testVictory(data) {
 	data.length.should.be.equal(31);
 }
 
-describe.only('test victory games', () => {
-	it.only('test victory game 1', () => {
+describe.only('test actual victories', () => {
+	it('test victory game 1', () => {
 		testVictory(victories[0]);
 	});
 
 	it('test victory game 2', () => {
 		testVictory(victories[1]);
+	});
+
+	it('test victory game 3', () => {
+		testVictory(victories[2]);
+	});
+
+	it('test victory game 4', () => {
+		testVictory(victories[3]);
+	});
+
+	it('test victory game 5', () => {
+		testVictory(victories[4]);
+	});
+
+	it('test victory game 6', () => {
+		testVictory(victories[5]);
+	});
+
+	it('test victory game 7', () => {
+		testVictory(victories[6]);
+	});
+
+	it('test victory game 8', () => {
+		testVictory(victories[7]);
+	});
+
+	it('test victory game 9', () => {
+		testVictory(victories[8]);
+	});
+
+	it('test victory game 10', () => {
+		testVictory(victories[9]);
 	});
 });

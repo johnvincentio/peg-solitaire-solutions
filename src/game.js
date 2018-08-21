@@ -237,11 +237,10 @@ class Game {
 	 * </pre>
 	 */
 	makeMove() {
-		// TODO; use this.currentMove instead.
 		// console.log(`>>> makeMove; move ${JSON.stringify(move)}`);
-		if (this.moves.length <= 0) {
-			console.log(`--- First Move ${JSON.stringify(this.currentMove)} at ${new Date().getTime()}`);
-		}
+		// if (this.moves.length <= 0) {
+		// 	console.log(`--- First Move ${JSON.stringify(this.currentMove)} at ${new Date().getTime()}`);
+		// }
 
 		const { status, from, to, via } = this.currentMove;
 		if (status !== 'OK') {
