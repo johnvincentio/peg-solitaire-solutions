@@ -17,11 +17,9 @@ const { VICTORIES_DIR, VICTORIES_LOG } = process.env;
 
 class Game {
 	constructor() {
-		this.rows = [];
 		this.moves = [];
 		this.victories = 0;
 		this.from = { row: 0, column: 0, type: 0 };
-		this.init();
 		this.currentMove = {
 			status: 'Error',
 			from: { row: -1, column: -1 },
@@ -29,12 +27,7 @@ class Game {
 			to: { row: -1, column: -1 },
 			type: -1
 		};
-	}
 
-	/**
-	 * initial setup of the board model
-	 */
-	init() {
 		let x;
 		let y;
 		this.rows = [];
