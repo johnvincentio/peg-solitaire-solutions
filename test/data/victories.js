@@ -1,6 +1,8 @@
 //
 
-const data1 = [
+const victories = [];
+
+victories[0] = [
 	{ status: 'OK', from: { row: 1, column: 3 }, via: { row: 2, column: 3 }, to: { row: 3, column: 3 }, type: 3 },
 	{ status: 'OK', from: { row: 2, column: 1 }, via: { row: 2, column: 2 }, to: { row: 2, column: 3 }, type: 2 },
 	{ status: 'OK', from: { row: 0, column: 2 }, via: { row: 1, column: 2 }, to: { row: 2, column: 2 }, type: 3 },
@@ -34,7 +36,7 @@ const data1 = [
 	{ status: 'OK', from: { row: 5, column: 3 }, via: { row: 4, column: 3 }, to: { row: 3, column: 3 }, type: 1 }
 ];
 
-const data2 = [
+victories[1] = [
 	{ status: 'OK', from: { row: 1, column: 3 }, via: { row: 2, column: 3 }, to: { row: 3, column: 3 }, type: 3 },
 	{ status: 'OK', from: { row: 2, column: 1 }, via: { row: 2, column: 2 }, to: { row: 2, column: 3 }, type: 2 },
 	{ status: 'OK', from: { row: 0, column: 2 }, via: { row: 1, column: 2 }, to: { row: 2, column: 2 }, type: 3 },
@@ -68,4 +70,4 @@ const data2 = [
 	{ status: 'OK', from: { row: 5, column: 3 }, via: { row: 4, column: 3 }, to: { row: 3, column: 3 }, type: 1 }
 ];
 
-module.exports = { data1, data2 };
+module.exports = victories;

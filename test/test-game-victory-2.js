@@ -13,7 +13,7 @@
 
 const Game = require('../src/game');
 
-const { data1, data2 } = require('./data/data1');
+const victories = require('./data/victories');
 
 describe('test victory 2', () => {
 	it('test game 1', () => {
