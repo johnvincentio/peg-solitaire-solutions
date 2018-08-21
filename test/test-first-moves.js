@@ -5,9 +5,9 @@
 /* eslint-disable no-plusplus */
 
 /**
- * Test a long game
+ * Test the first series of moves
  *
- * @module test-game-long
+ * @module test-first-moves
  * @requires Game
  * @requires Utils
  */
@@ -167,8 +167,8 @@ const testData = [
 	{ status: 'OK', from: { row: 4, column: 2 }, via: { row: 4, column: 3 }, to: { row: 4, column: 4 }, type: 2 }
 ];
 
-describe('test long game', () => {
-	it('test forward moves', () => {
+describe('test the first series of moves', () => {
+	it('test moves are the same as the saved moves', () => {
 		const game = new Game();
 		const utils = new Utils(game);
 
