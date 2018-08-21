@@ -27,8 +27,8 @@ function testVictory(data) {
 		game.currentMove = obj; // set current move
 		game.handleNextMove(); // make the move
 
+		game.moves.length.should.be.equal(dataIdx + 1);
 		utils.check(obj, local);
-		// game.moves.length.should.be.equal(dataIdx + 1);
 
 		// console.log("dataIdx "+dataIdx+" data.length "+data.length);
 		if (dataIdx < data.length - 1) {
