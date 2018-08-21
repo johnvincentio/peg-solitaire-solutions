@@ -177,7 +177,6 @@ describe('test the first series of moves', () => {
 		for (let dataIdx = 0; dataIdx < testData.length; dataIdx++) {
 			game.nextMove();
 			const obj = game.currentMove;
-			// console.log(JSON.stringify(obj));
 			obj.should.be.deep.equal(testData[dataIdx]);
 
 			game.handleNextMove(obj); // make the move

@@ -18,6 +18,18 @@ class Utils {
 		this.game.moves.length.should.be.equal(0);
 	}
 
+	checkVictory(victory) {
+		// console.log('victory ', victory);
+
+		this.game.moves.length.should.be.equal(31);
+
+		// console.log('moves ', this.game.moves);
+		this.game.moves.should.be.deep.equal(victory);
+
+		this.game.isVictory().should.be.a('boolean');
+		this.game.isVictory().should.equal(true);
+	}
+
 	check(obj, local) {
 		if (obj.status === 'OK') {
 			local.push(obj);

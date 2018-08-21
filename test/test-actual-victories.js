@@ -10,6 +10,7 @@
  * @module test-actual-victories
  * @requires Game
  * @requires Utils
+ * @requires victories
  */
 
 const Game = require('../src/game');
