@@ -3,9 +3,9 @@
 /* global describe, it */
 
 /**
- * Test game end
+ * Test game over
  *
- * @module test-game-end
+ * @module test-game-over
  * @requires Game
  */
 
