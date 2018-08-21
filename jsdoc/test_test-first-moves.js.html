@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: test/test-game-long.js</title>
+    <title>JSDoc: Source: test/test-first-moves.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: test/test-game-long.js</h1>
+    <h1 class="page-title">Source: test/test-first-moves.js</h1>
 
     
 
@@ -33,16 +33,14 @@
 /* eslint-disable no-plusplus */
 
 /**
- * Test a long game
+ * Test the first series of moves
  *
- * @module test-game-long
+ * @module test-first-moves
  * @requires Game
- * @requires Board
  * @requires Utils
  */
 
 const Game = require('../src/game');
-const Board = require('../src/board');
 const Utils = require('./utils');
 
 const testData = [
@@ -71,55 +69,145 @@ const testData = [
 	{ status: 'OK', from: { row: 6, column: 2 }, via: { row: 5, column: 2 }, to: { row: 4, column: 2 }, type: 1 },
 	{ status: 'OK', from: { row: 5, column: 4 }, via: { row: 5, column: 3 }, to: { row: 5, column: 2 }, type: 4 },
 	{ status: 'OK', from: { row: 4, column: 2 }, via: { row: 5, column: 2 }, to: { row: 6, column: 2 }, type: 3 },
-	{ status: 'None' },
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
 	{ status: 'OK', from: { row: 5, column: 2 }, via: { row: 4, column: 2 }, to: { row: 3, column: 2 }, type: 1 },
 	{ status: 'OK', from: { row: 6, column: 4 }, via: { row: 6, column: 3 }, to: { row: 6, column: 2 }, type: 4 },
-	{ status: 'None' },
-	{ status: 'None' },
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
 	{ status: 'OK', from: { row: 6, column: 4 }, via: { row: 6, column: 3 }, to: { row: 6, column: 2 }, type: 4 },
 	{ status: 'OK', from: { row: 5, column: 2 }, via: { row: 4, column: 2 }, to: { row: 3, column: 2 }, type: 1 },
-	{ status: 'None' },
-	{ status: 'None' },
-	{ status: 'None' },
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
 	{ status: 'OK', from: { row: 6, column: 4 }, via: { row: 5, column: 4 }, to: { row: 4, column: 4 }, type: 1 },
 	{ status: 'OK', from: { row: 4, column: 4 }, via: { row: 4, column: 5 }, to: { row: 4, column: 6 }, type: 2 },
 	{ status: 'OK', from: { row: 6, column: 3 }, via: { row: 5, column: 3 }, to: { row: 4, column: 3 }, type: 1 },
 	{ status: 'OK', from: { row: 4, column: 2 }, via: { row: 4, column: 3 }, to: { row: 4, column: 4 }, type: 2 },
-	{ status: 'None' },
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
 	{ status: 'OK', from: { row: 4, column: 3 }, via: { row: 4, column: 2 }, to: { row: 4, column: 1 }, type: 4 },
 	{ status: 'OK', from: { row: 4, column: 0 }, via: { row: 4, column: 1 }, to: { row: 4, column: 2 }, type: 2 },
-	{ status: 'None' },
-	{ status: 'None' },
-	{ status: 'None' },
-	{ status: 'None' },
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
 	{ status: 'OK', from: { row: 4, column: 5 }, via: { row: 4, column: 4 }, to: { row: 4, column: 3 }, type: 4 },
 	{ status: 'OK', from: { row: 4, column: 2 }, via: { row: 4, column: 3 }, to: { row: 4, column: 4 }, type: 2 },
 	{ status: 'OK', from: { row: 6, column: 3 }, via: { row: 5, column: 3 }, to: { row: 4, column: 3 }, type: 1 },
 	{ status: 'OK', from: { row: 4, column: 3 }, via: { row: 4, column: 4 }, to: { row: 4, column: 5 }, type: 2 },
-	{ status: 'None' },
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
 	{ status: 'OK', from: { row: 4, column: 4 }, via: { row: 4, column: 3 }, to: { row: 4, column: 2 }, type: 4 },
-	{ status: 'None' },
-	{ status: 'None' },
-	{ status: 'None' },
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
+	{
+		status: 'None',
+		from: { row: -1, column: -1 },
+		via: { row: -1, column: -1 },
+		to: { row: -1, column: -1 },
+		type: -1
+	},
 	{ status: 'OK', from: { row: 4, column: 3 }, via: { row: 4, column: 2 }, to: { row: 4, column: 1 }, type: 4 },
 	{ status: 'OK', from: { row: 4, column: 0 }, via: { row: 4, column: 1 }, to: { row: 4, column: 2 }, type: 2 },
 	{ status: 'OK', from: { row: 6, column: 3 }, via: { row: 5, column: 3 }, to: { row: 4, column: 3 }, type: 1 },
 	{ status: 'OK', from: { row: 4, column: 2 }, via: { row: 4, column: 3 }, to: { row: 4, column: 4 }, type: 2 }
-	//    {"status":"END"}            // TODO; remove this when finished
 ];
 
-describe('test long game', () => {
-	it('test forward moves', () => {
-		const game = new Game(new Board());
+describe('test the first series of moves', () => {
+	it('test moves are the same as the saved moves', () => {
+		const game = new Game();
 		const utils = new Utils(game);
+		utils.checkInitial();
 
 		const local = [];
 		for (let dataIdx = 0; dataIdx &lt; testData.length; dataIdx++) {
-			const obj = game.nextMove(); // next move
-			// console.log(JSON.stringify(obj));
+			game.nextMove();
+			const obj = game.currentMove;
 			obj.should.be.deep.equal(testData[dataIdx]);
 
-			game.handleNextMove(obj); // make the move
+			game.handleNextMove();
 
 			utils.check(obj, local);
 
@@ -138,7 +226,7 @@ describe('test long game', () => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Checker.html">Checker</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-test-board.html">test-board</a></li><li><a href="module-test-board-max.html">test-board-max</a></li><li><a href="module-test-game.html">test-game</a></li><li><a href="module-test-game-end.html">test-game-end</a></li><li><a href="module-test-game-long.html">test-game-long</a></li><li><a href="module-test-game-victory.html">test-game-victory</a></li></ul><h3>Classes</h3><ul><li><a href="Board.html">Board</a></li><li><a href="Game.html">Game</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Checker.html">Checker</a></li><li><a href="module-CheckGame.html">CheckGame</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-test-actual-victories.html">test-actual-victories</a></li><li><a href="module-test-board.html">test-board</a></li><li><a href="module-test-first-moves.html">test-first-moves</a></li><li><a href="module-test-first-victories.html">test-first-victories</a></li><li><a href="module-test-game-over.html">test-game-over</a></li></ul><h3>Classes</h3><ul><li><a href="Game.html">Game</a></li></ul>
 </nav>
 
 <br class="clear">

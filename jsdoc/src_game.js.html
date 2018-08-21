@@ -37,21 +37,70 @@
  * &lt;/pre>
  * @class Game
  * @requires fs
- * @requires Board
  */
 
 const fs = require('fs');
 
-const Board = require('./board.js');
-
 const { VICTORIES_DIR } = process.env;
 
 class Game {
-	constructor(board) {
-		this.board = board;
+	constructor() {
+		this.rows = [];
 		this.moves = [];
 		this.victories = 0;
 		this.from = { row: 0, column: 0, type: 0 };
+		this.init();
+		this.currentMove = {
+			status: 'Error',
+			from: { row: -1, column: -1 },
+			via: { row: -1, column: -1 },
+			to: { row: -1, column: -1 },
+			type: -1
+		};
+	}
+
+	/**
+	 * initial setup of the board model
+	 */
+	init() {
+		let x;
+		let y;
+		this.rows = [];
+		for (x = 0; x &lt; 7; x++) {
+			const row = [];
+			for (y = 0; y &lt; 7; y++) {
+				let legal = true;
+				let occupied = true;
+				if (!Game.isLegal(x, y)) {
+					legal = false;
+					occupied = false;
+				}
+				if (x === 3 &amp;&amp; y === 3) {
+					occupied = false;
+				}
+				row.push({ legal, occupied });
+			}
+			this.rows.push(row);
+		}
+	}
+
+	/**
+	 * empty the board model
+	 */
+	emptyBoard() {
+		this.rows = [];
+		for (let x = 0; x &lt; 7; x++) {
+			const row = [];
+			for (let y = 0; y &lt; 7; y++) {
+				let legal = true;
+				const occupied = false;
+				if (!Game.isLegal(x, y)) {
+					legal = false;
+				}
+				row.push({ legal, occupied });
+			}
+			this.rows.push(row);
+		}
 	}
 
 	/**
@@ -63,10 +112,17 @@ class Game {
 		if (this.moves.length &lt; 31) {
 			return false;
 		}
-		if (!this.board.isOccupied(3, 3)) {
+		if (!this.isOccupied(3, 3)) {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Handle write the victory
+	 */
+	writeVictory() {
+		fs.writeFileSync(`${VICTORIES_DIR}/${this.victories}.txt`, JSON.stringify(this.moves));
 	}
 
 	/**
@@ -84,13 +140,6 @@ class Game {
 		return false;
 	}
 
-	/**
-	 * Handle write the victory
-	 */
-	writeVictory() {
-		fs.writeFileSync(`${VICTORIES_DIR}/${this.victories}.txt`, JSON.stringify(this.moves));
-	}
-
 	/* eslint no-constant-condition: ["error", { "checkLoops": false }] */
 
 	/**
@@ -99,10 +148,11 @@ class Game {
 	start() {
 		console.log(`Started at ${new Date().getTime()}`);
 		while (true) {
-			const move = this.nextMove();
-			this.handleNextMove(move);
+			this.nextMove();
+			this.handleNextMove();
 			if (this.isVictory()) {
 				this.handleVictory(true);
+				this.deleteMove();
 			}
 			if (this.isGameOver()) {
 				break;
@@ -122,51 +172,389 @@ class Game {
 		if (save) {
 			this.writeVictory();
 		}
-		this.handleNextMove({ status: 'None' });
 	}
 
 	/**
 	 * Look for the next move
+	 *
+	 * @return {boolean} true if a possible next move was found
 	 */
 	nextMove() {
 		for (let { row } = this.from; row &lt; 7; row++) {
 			for (let { column } = this.from; column &lt; 7; column++) {
-				if (!Board.isLegal(row, column)) {
+				if (!Game.isLegal(row, column)) {
 					continue;
 				}
 				let startType = 1;
 				if (row === this.from.row &amp;&amp; column === this.from.column) {
 					startType = this.from.type + 1;
 				}
-				const move = this.board.findMove(row, column, startType);
-				if (move.status === 'OK') {
-					return move;
+				if (this.findMove(row, column, startType)) {
+					return true;
 				}
 			}
 		}
-		return { status: 'None' };
+		this.makeNoMoveStatus();
+		return false;
+	}
+
+	/**
+	 * Find the next possible move
+	 *
+	 * @param {number} row - from row
+	 * @param {number} column - from column
+	 * @param {number} type - begin with this move type
+	 * @return {boolean} true if a possible move was found
+	 */
+	findMove(row, column, type) {
+		for (let current = type; current &lt; 5; current++) {
+			if (current === 1) {
+				if (this.isFromUpMoveLegal(row, column)) {
+					this.makeMoveStatus('OK', row, column, row - 1, column, row - 2, column, current);
+					return true;
+				}
+			} else if (current === 2) {
+				if (this.isFromRightMoveLegal(row, column)) {
+					this.makeMoveStatus('OK', row, column, row, column + 1, row, column + 2, current);
+					return true;
+				}
+			} else if (current === 3) {
+				if (this.isFromDownMoveLegal(row, column)) {
+					this.makeMoveStatus('OK', row, column, row + 1, column, row + 2, column, current);
+					return true;
+				}
+			} else if (current === 4) {
+				if (this.isFromLeftMoveLegal(row, column)) {
+					this.makeMoveStatus('OK', row, column, row, column - 1, row, column - 2, current);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
 	 * Handle next move
-	 *
-	 * @param {object} move - current move
 	 */
-	handleNextMove(move) {
-		if (move.status === 'OK') {
-			if (this.moves.length &lt;= 0) {
-				console.log(`--- First Move ${JSON.stringify(move)} at ${new Date().getTime()}`);
-			}
-			this.board.makeMove(move);
-			this.moves.push(move);
-			this.from = { row: 0, column: 0, type: 0 };
-		} else if (move.status === 'None') {
-			const lastMove = this.moves.pop();
-			this.board.deleteMove(lastMove);
-			this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
+	handleNextMove() {
+		if (this.currentMove.status === 'OK') {
+			this.makeMove();
+		} else if (this.currentMove.status === 'None') {
+			this.deleteMove();
 		} else {
-			throw Error(`Exception in start(); move ${move} is invalid status`);
+			throw Error(`Exception in start(); move ${this.currentMove.status} is invalid status`);
 		}
+	}
+
+	/**
+	 * Make this move
+	 *
+	 * @return {Object} Move object
+	 * @throws {Error} if move is not valid
+	 *
+	 * &lt;pre>
+	 * 1. Verify from and to are the 2 tiles apart, on a straight line.
+	 * 2. Calculate the tile between from &amp; to.
+	 * 3. Verify from tile is legal and is occupied.
+	 * 4. Verify in between tile is legal and is occupied.
+	 * 5. Verify to tile is legal and is not occupied.
+	 * 6. Update data model:
+	 * 6a. Set from tile to empty
+	 * 6b. Set in between tile to empty
+	 * 6c. Set to tile to occupied.
+	 * &lt;/pre>
+	 */
+	makeMove() {
+		// console.log(`>>> makeMove; move ${JSON.stringify(move)}`);
+		// if (this.moves.length &lt;= 0) {
+		// 	console.log(`--- First Move ${JSON.stringify(this.currentMove)} at ${new Date().getTime()}`);
+		// }
+
+		const { status, from, to, via, type } = this.currentMove;
+		if (status !== 'OK') {
+			throw Error(`Exception in makeMove(); move ${JSON.stringify(this.currentMove)} is invalid status`);
+		}
+
+		if (!Game.isTypeLegal(type)) {
+			throw Error(`Exception in makeMove(); type ${type} in ${JSON.stringify(this.currentMove)} is invalid`);
+		}
+
+		switch (type) {
+			case 1: // move up
+				if (
+					via.row !== from.row - 1 ||
+					to.row !== from.row - 2 ||
+					via.column !== from.column ||
+					to.column !== from.column
+				) {
+					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
+				}
+				break;
+			case 2: // move right
+				if (
+					via.row !== from.row ||
+					to.row !== from.row ||
+					via.column !== from.column + 1 ||
+					to.column !== from.column + 2
+				) {
+					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
+				}
+				break;
+			case 3: // move down
+				if (
+					via.row !== from.row + 1 ||
+					to.row !== from.row + 2 ||
+					via.column !== from.column ||
+					to.column !== from.column
+				) {
+					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
+				}
+				break;
+			case 4: // move left
+				if (
+					via.row !== from.row ||
+					to.row !== from.row ||
+					via.column !== from.column - 1 ||
+					to.column !== from.column - 2
+				) {
+					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
+				}
+				break;
+			default:
+				break;
+		}
+
+		if (!Game.isLegal(from.row, from.column) || !this.isOccupied(from.row, from.column)) {
+			// 3
+			throw Error(`Exception in makeMove(); from in ${JSON.stringify(this.currentMove)} is invalid`);
+		}
+		if (!Game.isLegal(via.row, via.column) || !this.isOccupied(via.row, via.column)) {
+			// 4
+			throw Error(`Exception in makeMove(); via in ${JSON.stringify(this.currentMove)} is invalid`);
+		}
+		if (!Game.isLegal(to.row, to.column) || this.isOccupied(to.row, to.column)) {
+			// 5
+			throw Error(`Exception in makeMove(); to in ${JSON.stringify(this.currentMove)} is invalid`);
+		}
+
+		this.setEmpty(from.row, from.column); // 6a
+		this.setEmpty(via.row, via.column); // 6b
+		this.setOccupied(to.row, to.column); // 6c
+
+		this.moves.push(this.currentMove);
+		this.from = { row: 0, column: 0, type: 0 };
+
+		// console.log(`&lt;&lt;&lt; makeMove; move ${JSON.stringify(move)}`);
+		return true;
+	}
+
+	/**
+	 * Delete last move
+	 *
+	 * @throws {Error} if move is not valid
+	 */
+	deleteMove() {
+		// console.log(">>> deleteMove");
+		const lastMove = this.moves.pop();
+
+		const { status, from, to, via } = lastMove;
+		if (status !== 'OK') {
+			throw Error(`Exception in deleteMove(); move ${lastMove} is invalid status`);
+		}
+		this.setOccupied(from.row, from.column);
+		this.setOccupied(via.row, via.column);
+		this.setEmpty(to.row, to.column);
+
+		this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
+		// console.log("&lt;&lt;&lt; deleteMove");
+	}
+
+	/**
+	 * Determine whether this position is occupied.
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if is occupied
+	 */
+	isOccupied(row, column) {
+		if (!Game.isLegal(row, column)) {
+			throw Error(`Exception in isOccupied(); row ${row} column ${column} is not legal`);
+		}
+		return this.rows[row][column].occupied;
+	}
+
+	/**
+	 * Set this position to empty
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @throws {Error} if position is not legal
+	 */
+	setEmpty(row, column) {
+		if (!Game.isLegal(row, column)) {
+			throw Error(`Exception in setEmpty(); row ${row} column ${column} is not legal`);
+		}
+		this.rows[row][column].occupied = false;
+	}
+
+	/**
+	 * Set this position to occupied
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @throws {Error} if position is not legal
+	 */
+	setOccupied(row, column) {
+		if (!Game.isLegal(row, column)) {
+			throw Error(`Exception in setEmpty(); row ${row} column ${column} is not legal`);
+		}
+		this.rows[row][column].occupied = true;
+	}
+
+	/**
+	 * Determine whether moving up is legal
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if legal
+	 */
+	isFromUpMoveLegal(row, column) {
+		return (
+			Game.isLegal(row, column) &amp;&amp;
+			this.isOccupied(row, column) &amp;&amp;
+			Game.isLegal(row - 1, column) &amp;&amp;
+			this.isOccupied(row - 1, column) &amp;&amp;
+			Game.isLegal(row - 2, column) &amp;&amp;
+			!this.isOccupied(row - 2, column)
+		);
+	}
+
+	/**
+	 * Determine whether moving right is legal
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if legal
+	 */
+	isFromRightMoveLegal(row, column) {
+		return (
+			Game.isLegal(row, column) &amp;&amp;
+			this.isOccupied(row, column) &amp;&amp;
+			Game.isLegal(row, column + 1) &amp;&amp;
+			this.isOccupied(row, column + 1) &amp;&amp;
+			Game.isLegal(row, column + 2) &amp;&amp;
+			!this.isOccupied(row, column + 2)
+		);
+	}
+
+	/**
+	 * Determine whether moving down is legal
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if legal
+	 */
+	isFromDownMoveLegal(row, column) {
+		return (
+			Game.isLegal(row, column) &amp;&amp;
+			this.isOccupied(row, column) &amp;&amp;
+			Game.isLegal(row + 1, column) &amp;&amp;
+			this.isOccupied(row + 1, column) &amp;&amp;
+			Game.isLegal(row + 2, column) &amp;&amp;
+			!this.isOccupied(row + 2, column)
+		);
+	}
+
+	/**
+	 * Determine whether moving left is legal
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if legal
+	 */
+	isFromLeftMoveLegal(row, column) {
+		return (
+			Game.isLegal(row, column) &amp;&amp;
+			this.isOccupied(row, column) &amp;&amp;
+			Game.isLegal(row, column - 1) &amp;&amp;
+			this.isOccupied(row, column - 1) &amp;&amp;
+			Game.isLegal(row, column - 2) &amp;&amp;
+			!this.isOccupied(row, column - 2)
+		);
+	}
+
+	/**
+	 * Determine whether this position is legal.
+	 *
+	 * The board is treated as a square, so the function is used to determine which squares are
+	 * within the board
+	 *
+	 * @param {number} row - row
+	 * @param {number} column - column
+	 * @return {boolean} - true if is a legal position
+	 */
+	static isLegal(row, column) {
+		if (row &lt; 0 || row > 6) {
+			return false;
+		}
+		if (column &lt; 0 || column > 6) {
+			return false;
+		}
+		if (row === 0 || row === 1 || row === 5 || row === 6) {
+			if (column === 0 || column === 1 || column === 5 || column === 6) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Determine whether this position is legal.
+	 *
+	 * The board is treated as a square, so the function is used to determine which squares are
+	 * within the board
+	 *
+	 * @param {number} type - type
+	 * @return {boolean} - true if is a legal type
+	 */
+	static isTypeLegal(type) {
+		return type > 0 &amp;&amp; type &lt; 5;
+	}
+
+	/**
+	 * Transform move status to an object
+	 *
+	 * @param {string} status - status
+	 * @param {number} fromRow - from row
+	 * @param {number} fromColumn - from column
+	 * @param {number} viaRow - via row
+	 * @param {number} viaColumn - via column
+	 * @param {number} toRow - to row
+	 * @param {number} toColumn - to column
+	 * @param {number} type - move type
+	 * @return {Object} Move object
+	 */
+	makeMoveStatus(status, fromRow, fromColumn, viaRow, viaColumn, toRow, toColumn, type) {
+		this.currentMove = {
+			status,
+			from: { row: fromRow, column: fromColumn },
+			via: { row: viaRow, column: viaColumn },
+			to: { row: toRow, column: toColumn },
+			type
+		};
+	}
+
+	/**
+	 * Set move status to no move found
+	 */
+	makeNoMoveStatus() {
+		this.currentMove = {
+			status: 'None',
+			from: { row: -1, column: -1 },
+			via: { row: -1, column: -1 },
+			to: { row: -1, column: -1 },
+			type: -1
+		};
 	}
 }
 
@@ -181,7 +569,7 @@ module.exports = Game;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Checker.html">Checker</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-test-board.html">test-board</a></li><li><a href="module-test-board-max.html">test-board-max</a></li><li><a href="module-test-game.html">test-game</a></li><li><a href="module-test-game-end.html">test-game-end</a></li><li><a href="module-test-game-long.html">test-game-long</a></li><li><a href="module-test-game-victory.html">test-game-victory</a></li></ul><h3>Classes</h3><ul><li><a href="Board.html">Board</a></li><li><a href="Game.html">Game</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Checker.html">Checker</a></li><li><a href="module-CheckGame.html">CheckGame</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-test-actual-victories.html">test-actual-victories</a></li><li><a href="module-test-board.html">test-board</a></li><li><a href="module-test-first-moves.html">test-first-moves</a></li><li><a href="module-test-first-victories.html">test-first-victories</a></li><li><a href="module-test-game-over.html">test-game-over</a></li></ul><h3>Classes</h3><ul><li><a href="Game.html">Game</a></li></ul>
 </nav>
 
 <br class="clear">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: src/checker.js</title>
+    <title>JSDoc: Source: src/check-a-game.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: src/checker.js</h1>
+    <h1 class="page-title">Source: src/check-a-game.js</h1>
 
     
 
@@ -31,41 +31,59 @@
 /* eslint-disable no-plusplus */
 
 /**
- * Check the Peg Solitaire solutions to verify they are correct.
+ * Check a Peg Solitaire solution to verify it is correct.
  *
- * @module Checker
+ * @module CheckGame
  * @requires fs
+ * @requires Game
+ * @requires Utils
  */
-
-const data = [];
 
 const fs = require('fs');
 
-const { VICTORIES_DIR } = process.env;
+const Game = require('./game.js');
 
-const files = fs.readdirSync(VICTORIES_DIR);
+const args = process.argv.slice(2);
+console.log('Checking file ', args[0]);
+// console.log('args ', args);
 
-files.forEach(file => {
-	// console.log(`file :${file}`);
-	const obj = JSON.stringify(JSON.parse(fs.readFileSync(`${VICTORIES_DIR}/${file}`, 'utf8')));
-	// console.log(obj);
-	data.push(obj);
-});
+// try {
+const data = JSON.parse(fs.readFileSync(args[0], 'utf8'));
+// console.log('data ', data);
+if (data.length !== 31) {
+	throw Error(`Exception in file ${args[0]}, incorrect length of ${data.length}`);
+}
 
-console.log(`Number of files to check: ${data.length}`);
+const game = new Game();
 
-for (let idx = 0; idx &lt; data.length; idx++) {
-	const check = data[idx];
-	for (let jdx = idx + 1; jdx &lt; data.length; jdx++) {
-		if (check === data[jdx]) {
-			console.log('**********************');
-			console.log(`Duplicate: idx ${idx} jdx ${jdx}`);
-			console.log(`check: ${check}`);
-			console.log(`data[jdx] ${data[jdx]}`);
-			console.log('**********************');
+for (let dataIdx = 0; dataIdx &lt; data.length; dataIdx++) {
+	const obj = data[dataIdx];
+	if (obj.status !== 'OK') {
+		throw Error(`Exception in file ${args[0]}, status ${obj.status} is invalid`);
+	}
+
+	game.currentMove = obj; // set current move
+	game.handleNextMove(); // make the move
+
+	if (game.moves.length !== dataIdx + 1) {
+		throw Error(
+			`Exception in file ${args[0]}, dataIdx ${dataIdx + 1} should be equal game.moves.length ${game.moves.length}`
+		);
+	}
+
+	if (dataIdx &lt; data.length - 1) {
+		if (game.isVictory()) {
+			throw Error(`Exception in file ${args[0]}, unexpected victory condition`);
 		}
 	}
 }
+
+if (!game.isVictory()) {
+	throw Error(`Exception in file ${args[0]}, expected victory condition`);
+}
+// } catch (err) {
+// 	console.error('Exception: ', err);
+// }
 </code></pre>
         </article>
     </section>
