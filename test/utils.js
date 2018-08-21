@@ -5,6 +5,19 @@ class Utils {
 		this.game = game;
 	}
 
+	checkInitial() {
+		this.game.isVictory().should.be.a('boolean');
+		this.game.isVictory().should.equal(false);
+		this.game.victories.should.be.equal(0);
+
+		const { from } = this.game;
+		from.row.should.be.equal(0);
+		from.column.should.be.equal(0);
+		from.type.should.be.equal(0);
+
+		this.game.moves.length.should.be.equal(0);
+	}
+
 	check(obj, local) {
 		if (obj.status === 'OK') {
 			local.push(obj);

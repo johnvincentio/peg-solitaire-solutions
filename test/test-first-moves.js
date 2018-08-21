@@ -171,6 +171,7 @@ describe('test the first series of moves', () => {
 	it('test moves are the same as the saved moves', () => {
 		const game = new Game();
 		const utils = new Utils(game);
+		utils.checkInitial();
 
 		const local = [];
 		for (let dataIdx = 0; dataIdx < testData.length; dataIdx++) {

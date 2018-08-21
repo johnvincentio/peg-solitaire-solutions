@@ -11,16 +11,8 @@
 
 const Game = require('../src/game');
 
-describe('test moves', () => {
+describe('test game', () => {
 	it('test start of the game', () => {
-		const data = {
-			status: 'OK',
-			from: { row: 1, column: 3 },
-			via: { row: 2, column: 3 },
-			to: { row: 3, column: 3 },
-			type: 4
-		};
-
 		const game = new Game();
 		game.isVictory().should.be.a('boolean');
 		game.isVictory().should.equal(false);

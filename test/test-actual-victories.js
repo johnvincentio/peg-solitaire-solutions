@@ -20,6 +20,7 @@ const victories = require('./data/victories');
 function testVictory(data) {
 	const game = new Game();
 	const utils = new Utils(game);
+	utils.checkInitial();
 
 	const local = [];
 	for (let dataIdx = 0; dataIdx < data.length; dataIdx++) {
