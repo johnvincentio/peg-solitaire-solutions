@@ -20,9 +20,8 @@ const Utils = require('./utils');
 const victories = require('./data/victories');
 
 const TOTAL_VICTORIES = victories.length;
-console.log('TOTAL_VICTORIES ', TOTAL_VICTORIES);
 
-describe.only('test finding the first series of victories', () => {
+describe('test finding the first series of victories', () => {
 	it('test running the game and check the victories', () => {
 		const game = new Game();
 		const utils = new Utils(game);

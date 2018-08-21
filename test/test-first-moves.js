@@ -179,7 +179,7 @@ describe('test the first series of moves', () => {
 			const obj = game.currentMove;
 			obj.should.be.deep.equal(testData[dataIdx]);
 
-			game.handleNextMove(obj); // make the move
+			game.handleNextMove();
 
 			utils.check(obj, local);
 
