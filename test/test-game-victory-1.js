@@ -104,18 +104,14 @@ function testVictory(data) {
 	game.isVictory().should.equal(true);
 	game.handleVictory(false);
 	game.victories.should.be.equal(1);
-
-	utils.check({ status: 'None' }, local);
 }
 
 describe.only('test victory games', () => {
 	it.only('test victory game 1', () => {
-		const myData = testData[0];
-		testVictory(myData);
+		testVictory(testData[0]);
 	});
 
 	it('test victory game 2', () => {
-		const myData = testData[1];
-		testVictory(myData);
+		testVictory(testData[1]);
 	});
 });
