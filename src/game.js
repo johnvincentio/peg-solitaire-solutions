@@ -123,14 +123,16 @@ class Game {
 	start() {
 		console.log(`Started at ${new Date().getTime()}`);
 		while (true) {
-			this.nextMove();
+			if (!this.nextMove()) {
+				if (this.isGameOver()) {
+					break;
+				}
+			}
+
 			this.handleNextMove();
 			if (this.isVictory()) {
 				this.handleVictory(true);
 				this.deleteMove();
-			}
-			if (this.isGameOver()) {
-				break;
 			}
 		}
 		console.log(`Ended at ${new Date().getTime()}`);

@@ -29,7 +29,12 @@ describe('test finding the first series of victories', () => {
 		console.log(`Started at ${new Date().getTime()}`);
 		console.log(`Searching for the first ${TOTAL_VICTORIES} victories`);
 		while (true) {
-			game.nextMove();
+			if (!game.nextMove()) {
+				if (game.isGameOver()) {
+					break;
+				}
+			}
+
 			game.handleNextMove();
 			if (game.isVictory()) {
 				game.handleVictory(false);
@@ -40,9 +45,6 @@ describe('test finding the first series of victories', () => {
 				}
 
 				game.deleteMove();
-			}
-			if (game.isGameOver()) {
-				break;
 			}
 		}
 		console.log(`Ended at ${new Date().getTime()}`);
