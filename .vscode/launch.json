@@ -21,11 +21,10 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Run NOT check-a-game",
-      "program": "${workspaceRoot}/src/check-a-game.js",
-      "args": ["/Users/jv/tmp/peg-solitaire-solutions/victories/1.txt"],
+      "name": "Run find-last-victory",
+      "program": "${workspaceRoot}/src/find-last-victory.js",
       "env": {
-        "VICTORIES_DIR": "/Users/jv/tmp/peg-solitaire-solutions/victories",
+        "VICTORIES_DIR": "/Users/jv/tmp/peg-solitaire-solutions/last-victories",
         "VICTORIES_LOG": "true"
       }
     },

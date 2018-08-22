@@ -337,19 +337,23 @@ class Game {
 		// console.log('>>> deleteMove');
 		// const lastMove = this.moves.pop();
 
-		const lastMove = this.table.moves[this.table.counter];
-		this.table.moves[this.table.counter] = this.currentMove;
-		this.table.counter--;
+		if (this.table.counter > -1) {
+			const lastMove = this.table.moves[this.table.counter];
+			this.table.moves[this.table.counter] = this.currentMove;
+			this.table.counter--;
 
-		const { status, from, to, via } = lastMove;
-		if (status !== 'OK') {
-			throw Error(`Exception in deleteMove(); move ${lastMove} is invalid status`);
+			const { status, from, to, via } = lastMove;
+			if (status !== 'OK') {
+				throw Error(`Exception in deleteMove(); move ${lastMove} is invalid status`);
+			}
+			this.setOccupied(from.row, from.column);
+			this.setOccupied(via.row, via.column);
+			this.setEmpty(to.row, to.column);
+
+			this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
+		} else {
+			this.from.type++;
 		}
-		this.setOccupied(from.row, from.column);
-		this.setOccupied(via.row, via.column);
-		this.setEmpty(to.row, to.column);
-
-		this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
 		// console.log('<<< deleteMove');
 	}
 
