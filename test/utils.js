@@ -47,7 +47,7 @@ class Utils {
 		} else if (obj.status === 'None') {
 			const last = local.pop();
 
-			this.game.moves[this.game.table.counter].should.be.deep.equal(local[local.length - 1]);
+			this.game.table.moves[this.game.table.counter].should.be.deep.equal(local[local.length - 1]);
 
 			this.game.from.row.should.be.equal(last.from.row);
 			this.game.from.column.should.be.equal(last.from.column);
