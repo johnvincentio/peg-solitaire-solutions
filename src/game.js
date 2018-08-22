@@ -17,7 +17,17 @@ const { VICTORIES_DIR, VICTORIES_LOG } = process.env;
 
 class Game {
 	constructor() {
-		this.moves = [];
+		// this.moves = [];
+		this.table = {
+			moves: [],
+			counter: -1
+		};
+
+		this.makeNoMoveStatus();
+		for (let x = 0; x < 31; x++) {
+			this.table.moves[x] = this.currentMove;
+		}
+
 		this.victories = 0;
 		this.from = { row: 0, column: 0, type: 0 };
 		this.currentMove = {
@@ -74,7 +84,7 @@ class Game {
 	 * @return {boolean} - true if victory has been found
 	 */
 	isVictory() {
-		if (this.moves.length < 31) {
+		if (this.table.counter < 30) {
 			return false;
 		}
 		if (!this.isOccupied(3, 3)) {
@@ -87,7 +97,7 @@ class Game {
 	 * Handle write the victory
 	 */
 	writeVictory() {
-		fs.writeFileSync(`${VICTORIES_DIR}/${this.victories}.txt`, JSON.stringify(this.moves));
+		fs.writeFileSync(`${VICTORIES_DIR}/${this.victories}.txt`, JSON.stringify(this.table.moves));
 	}
 
 	/**
@@ -96,7 +106,7 @@ class Game {
 	 * @return {boolean} - true if game is over
 	 */
 	isGameOver() {
-		if (this.moves.length <= 0) {
+		if (this.table.counter <= 0) {
 			if (this.from.row === 6 && this.from.column === 4 && this.from.type === 4) {
 				console.log('Game is over');
 				return true;
@@ -308,7 +318,10 @@ class Game {
 		this.setEmpty(via.row, via.column); // 6b
 		this.setOccupied(to.row, to.column); // 6c
 
-		this.moves.push(this.currentMove);
+		// this.moves.push(this.currentMove);
+
+		this.table.moves[++this.table.counter] = this.currentMove;
+
 		this.from = { row: 0, column: 0, type: 0 };
 
 		// console.log(`<<< makeMove; move ${JSON.stringify(move)}`);
@@ -321,8 +334,12 @@ class Game {
 	 * @throws {Error} if move is not valid
 	 */
 	deleteMove() {
-		// console.log(">>> deleteMove");
-		const lastMove = this.moves.pop();
+		// console.log('>>> deleteMove');
+		// const lastMove = this.moves.pop();
+
+		const lastMove = this.table.moves[this.table.counter];
+		this.table.moves[this.table.counter] = this.currentMove;
+		this.table.counter--;
 
 		const { status, from, to, via } = lastMove;
 		if (status !== 'OK') {
@@ -333,7 +350,7 @@ class Game {
 		this.setEmpty(to.row, to.column);
 
 		this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
-		// console.log("<<< deleteMove");
+		// console.log('<<< deleteMove');
 	}
 
 	/**

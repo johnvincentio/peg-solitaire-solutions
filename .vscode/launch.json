@@ -1,66 +1,44 @@
 {
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"type": "node",
-			"request": "attach",
-			"name": "Attach to Process",
-			"processId": "${command:PickProcess}",
-			"port": 5858
-	},
-	{
-			"type": "node",
-			"request": "launch",
-			"name": "Launch Server",
-			"program": "${workspaceRoot}/server/server.js"
-	},
-		{
-			"type": "chrome",
-			"request": "launch",
-			"name": "Launch Chrome against localhost",
-			"url": "http://localhost:8025",
-			"sourceMaps": true,
-			"webRoot": "${workspaceRoot}/client/src",
-			"userDataDir": "${workspaceRoot}/.vscode/chrome",
-			"sourceMapPathOverrides": {
-				"webpack://client/src/*": "${webRoot}/*"
-			},
-			"trace": true
-		},
-		{
-			"type": "chrome",
-			"request": "attach",
-			"name": "Attach to Chrome",
-			"port": 9222,
-			"url": "http://localhost:8025",
-			"webRoot": "${workspaceRoot}",
-			"sourceMapPathOverrides": {
-					"webpack:///*": "${workspaceRoot}/client/src/*"
-			}
-		},
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "Run jv1",
-			"program": "${workspaceRoot}/server/server.js",
-			"args": [
-				"${workspaceRoot}/client/webpack.config.js"
-			]
-		},
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "Run webpack",
-			"program": "${workspaceRoot}/client/node_modules/.bin/webpack",
-			"args": [
-				"${workspaceRoot}/client/webpack.config.js"
-			]
-		},
-		{
-			"type": "node",
-			"request": "launch",
-			"name": "Launch Program",
-			"program": "${file}"
-		}
-	]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach to Process",
+      "processId": "${command:PickProcess}",
+      "port": 5858
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run solitaire",
+      "program": "${workspaceRoot}/src/main.js",
+      "env": {
+        "VICTORIES_DIR": "/Users/jv/tmp/peg-solitaire-solutions/victories",
+        "VICTORIES_LOG": "true"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run NOT check-a-game",
+      "program": "${workspaceRoot}/src/check-a-game.js",
+      "args": ["/Users/jv/tmp/peg-solitaire-solutions/victories/1.txt"],
+      "env": {
+        "VICTORIES_DIR": "/Users/jv/tmp/peg-solitaire-solutions/victories",
+        "VICTORIES_LOG": "true"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run check-a-game",
+      "program": "${workspaceRoot}/src/check-a-game.js",
+      "args": ["/Users/jv/tmp/peg-solutions/1.txt"],
+      "env": {
+        "VICTORIES_DIR": "/Users/jv/tmp/peg-solitaire-solutions/victories",
+        "VICTORIES_LOG": "true"
+      }
+    }
+  ]
 }

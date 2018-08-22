@@ -37,9 +37,10 @@ for (let dataIdx = 0; dataIdx < data.length; dataIdx++) {
 	game.currentMove = obj; // set current move
 	game.handleNextMove(); // make the move
 
-	if (game.moves.length !== dataIdx + 1) {
+	if (game.table.counter !== dataIdx) {
 		throw Error(
-			`Exception in file ${args[0]}, dataIdx ${dataIdx + 1} should be equal game.moves.length ${game.moves.length}`
+			`Exception in file ${args[0]}, dataIdx ${dataIdx} 
+			should be equal game.moves.length ${game.table.counter}`
 		);
 	}
 
