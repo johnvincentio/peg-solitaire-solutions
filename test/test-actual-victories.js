@@ -29,7 +29,7 @@ function testVictory(data) {
 		game.currentMove = obj; // set current move
 		game.handleNextMove(); // make the move
 
-		game.moves.length.should.be.equal(dataIdx + 1);
+		game.table.counter.should.be.equal(dataIdx);
 		utils.check(obj, local);
 
 		// console.log("dataIdx "+dataIdx+" data.length "+data.length);
@@ -42,7 +42,7 @@ function testVictory(data) {
 	game.handleVictory(false);
 	game.victories.should.be.equal(1);
 
-	data.length.should.be.equal(31);
+	game.table.counter.should.be.equal(30);
 }
 
 describe('test actual victories', () => {
