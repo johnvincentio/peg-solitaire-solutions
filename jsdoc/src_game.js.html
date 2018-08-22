@@ -151,14 +151,16 @@ class Game {
 	start() {
 		console.log(`Started at ${new Date().getTime()}`);
 		while (true) {
-			this.nextMove();
+			if (!this.nextMove()) {
+				if (this.isGameOver()) {
+					break;
+				}
+			}
+
 			this.handleNextMove();
 			if (this.isVictory()) {
 				this.handleVictory(true);
 				this.deleteMove();
-			}
-			if (this.isGameOver()) {
-				break;
 			}
 		}
 		console.log(`Ended at ${new Date().getTime()}`);
@@ -365,19 +367,23 @@ class Game {
 		// console.log('>>> deleteMove');
 		// const lastMove = this.moves.pop();
 
-		const lastMove = this.table.moves[this.table.counter];
-		this.table.moves[this.table.counter] = this.currentMove;
-		this.table.counter--;
+		if (this.table.counter > -1) {
+			const lastMove = this.table.moves[this.table.counter];
+			this.table.moves[this.table.counter] = this.currentMove;
+			this.table.counter--;
 
-		const { status, from, to, via } = lastMove;
-		if (status !== 'OK') {
-			throw Error(`Exception in deleteMove(); move ${lastMove} is invalid status`);
+			const { status, from, to, via } = lastMove;
+			if (status !== 'OK') {
+				throw Error(`Exception in deleteMove(); move ${lastMove} is invalid status`);
+			}
+			this.setOccupied(from.row, from.column);
+			this.setOccupied(via.row, via.column);
+			this.setEmpty(to.row, to.column);
+
+			this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
+		} else {
+			this.from.type++;
 		}
-		this.setOccupied(from.row, from.column);
-		this.setOccupied(via.row, via.column);
-		this.setEmpty(to.row, to.column);
-
-		this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
 		// console.log('&lt;&lt;&lt; deleteMove');
 	}
 
@@ -581,7 +587,7 @@ module.exports = Game;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Checker.html">Checker</a></li><li><a href="module-CheckGame.html">CheckGame</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-test-actual-victories.html">test-actual-victories</a></li><li><a href="module-test-board.html">test-board</a></li><li><a href="module-test-first-moves.html">test-first-moves</a></li><li><a href="module-test-first-victories.html">test-first-victories</a></li><li><a href="module-test-game-over.html">test-game-over</a></li></ul><h3>Classes</h3><ul><li><a href="Game.html">Game</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Checker.html">Checker</a></li><li><a href="module-CheckGame.html">CheckGame</a></li><li><a href="module-LastVictory.html">LastVictory</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-test-actual-victories.html">test-actual-victories</a></li><li><a href="module-test-board.html">test-board</a></li><li><a href="module-test-first-moves.html">test-first-moves</a></li><li><a href="module-test-first-victories.html">test-first-victories</a></li><li><a href="module-test-game-over.html">test-game-over</a></li></ul><h3>Classes</h3><ul><li><a href="Game.html">Game</a></li></ul>
 </nav>
 
 <br class="clear">

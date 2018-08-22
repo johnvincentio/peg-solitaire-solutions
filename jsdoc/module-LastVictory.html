@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: src/checker.js</title>
+    <title>JSDoc: Module: LastVictory</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,58 +17,136 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: src/checker.js</h1>
+    <h1 class="page-title">Module: LastVictory</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>//
+        
+            
+        
+    
+</header>
 
-/* eslint-disable no-plusplus */
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Find last Peg Solitaire solution</div>
+        
 
-/**
- * Check the Peg Solitaire solutions to verify they are correct.
- *
- * @module Checker
- * @requires fs
- */
+        
+            
 
-const data = [];
 
-const fs = require('fs');
 
-const { VICTORIES_DIR } = process.env;
 
-const files = fs.readdirSync(VICTORIES_DIR);
 
-files.forEach(file => {
-	// console.log(`file :${file}`);
-	const obj = JSON.stringify(JSON.parse(fs.readFileSync(`${VICTORIES_DIR}/${file}`, 'utf8')));
-	// console.log(obj);
-	data.push(obj);
-});
 
-console.log(`Number of files to check: ${data.length}`);
 
-for (let idx = 0; idx &lt; data.length; idx++) {
-	const check = data[idx];
-	for (let jdx = idx + 1; jdx &lt; data.length; jdx++) {
-		if (check === data[jdx]) {
-			console.log('**********************');
-			console.log(`Duplicate: idx ${idx} jdx ${jdx}`);
-			console.log(`check: ${check}`);
-			console.log(`data[jdx] ${data[jdx]}`);
-			console.log('**********************');
-		}
-	}
-}
-</code></pre>
-        </article>
-    </section>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_find-last-victory.js.html">src/find-last-victory.js</a>, <a href="src_find-last-victory.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:Game</li>
+        </ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

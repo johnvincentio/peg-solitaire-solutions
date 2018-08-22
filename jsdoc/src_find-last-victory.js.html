@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: src/checker.js</title>
+    <title>JSDoc: Source: src/find-last-victory.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: src/checker.js</h1>
+    <h1 class="page-title">Source: src/find-last-victory.js</h1>
 
     
 
@@ -31,41 +31,34 @@
 /* eslint-disable no-plusplus */
 
 /**
- * Check the Peg Solitaire solutions to verify they are correct.
+ * Find last Peg Solitaire solution
  *
- * @module Checker
- * @requires fs
+ * @module LastVictory
+ * @requires Game
  */
 
-const data = [];
+const Game = require('./game.js');
 
-const fs = require('fs');
+const game = new Game();
 
-const { VICTORIES_DIR } = process.env;
+game.from = { row: 6, column: 4, type: 3 };
 
-const files = fs.readdirSync(VICTORIES_DIR);
+/* eslint no-constant-condition: ["error", { "checkLoops": false }] */
 
-files.forEach(file => {
-	// console.log(`file :${file}`);
-	const obj = JSON.stringify(JSON.parse(fs.readFileSync(`${VICTORIES_DIR}/${file}`, 'utf8')));
-	// console.log(obj);
-	data.push(obj);
-});
-
-console.log(`Number of files to check: ${data.length}`);
-
-for (let idx = 0; idx &lt; data.length; idx++) {
-	const check = data[idx];
-	for (let jdx = idx + 1; jdx &lt; data.length; jdx++) {
-		if (check === data[jdx]) {
-			console.log('**********************');
-			console.log(`Duplicate: idx ${idx} jdx ${jdx}`);
-			console.log(`check: ${check}`);
-			console.log(`data[jdx] ${data[jdx]}`);
-			console.log('**********************');
+console.log(`Started at ${new Date().getTime()}`);
+while (true) {
+	if (!game.nextMove()) {
+		if (game.isGameOver()) {
+			break;
 		}
 	}
+	game.handleNextMove();
+	if (game.isVictory()) {
+		game.handleVictory(true);
+		game.deleteMove();
+	}
 }
+console.log(`Ended at ${new Date().getTime()}`);
 </code></pre>
         </article>
     </section>
