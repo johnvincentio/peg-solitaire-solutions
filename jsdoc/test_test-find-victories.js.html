@@ -57,24 +57,27 @@ describe('test finding the first series of victories', () => {
 		console.log(`Started at ${new Date().getTime()}`);
 		console.log(`Searching for the first ${TOTAL_VICTORIES} victories`);
 		while (true) {
-			if (!game.nextMove()) {
-				if (game.isGameOver()) {
+			if (game.nextMove()) {
+				game.makeMove();
+				if (game.isVictory()) {
+					game.handleVictory(false);
+
+					utils.checkVictory(victories[game.victories - 1]);
+					if (game.victories >= TOTAL_VICTORIES) {
+						break;
+					}
+
+					game.deleteMove();
+				}
+			} else {
+				if (game.table.counter &lt;= 0) {
+					console.log('Game is over');
 					break;
 				}
-			}
-
-			game.handleNextMove();
-			if (game.isVictory()) {
-				game.handleVictory(false);
-
-				utils.checkVictory(victories[game.victories - 1]);
-				if (game.victories >= TOTAL_VICTORIES) {
-					break;
-				}
-
 				game.deleteMove();
 			}
 		}
+
 		console.log(`Ended at ${new Date().getTime()}`);
 	}).timeout(150000);
 });
@@ -88,7 +91,7 @@ describe('test finding the first series of victories', () => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Checker.html">Checker</a></li><li><a href="module-CheckGame.html">CheckGame</a></li><li><a href="module-LastVictory.html">LastVictory</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-test-actual-victories.html">test-actual-victories</a></li><li><a href="module-test-board.html">test-board</a></li><li><a href="module-test-first-moves.html">test-first-moves</a></li><li><a href="module-test-first-victories.html">test-first-victories</a></li><li><a href="module-test-game-over.html">test-game-over</a></li></ul><h3>Classes</h3><ul><li><a href="Game.html">Game</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Checker.html">Checker</a></li><li><a href="module-CheckGame.html">CheckGame</a></li><li><a href="module-GameOver.html">GameOver</a></li><li><a href="module-LastVictory.html">LastVictory</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-test-actual-victories.html">test-actual-victories</a></li><li><a href="module-test-board.html">test-board</a></li><li><a href="module-test-first-moves.html">test-first-moves</a></li><li><a href="module-test-first-victories.html">test-first-victories</a></li><li><a href="module-test-game-over.html">test-game-over</a></li></ul><h3>Classes</h3><ul><li><a href="Game.html">Game</a></li></ul>
 </nav>
 
 <br class="clear">

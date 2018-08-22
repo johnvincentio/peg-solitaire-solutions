@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: Main</title>
+    <title>JSDoc: Source: src/find-game-over.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,140 +17,51 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: Main</h1>
+    <h1 class="page-title">Source: src/find-game-over.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//
 
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">Main module of Application to calculate all solutions to the Peg Solitaire game
-<pre>
-1. Load modules
-2. Start looking for solutions.
-</pre></div>
-        
+/* eslint-disable no-plusplus */
 
-        
-            
+/**
+ * Find game over
+ *
+ * @module GameOver
+ * @requires Game
+ */
 
+const Game = require('./game.js');
 
+const game = new Game();
 
+game.from = { row: 6, column: 4, type: 3 };
 
+/* eslint no-constant-condition: ["error", { "checkLoops": false }] */
 
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_main.js.html">src/main.js</a>, <a href="src_main.js.html#line3">line 3</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-    </div>
-
-    
-
-    
-        <h3 class="subsection-title">Requires</h3>
-
-        <ul>
-            <li>module:Game</li>
-        </ul>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+console.log(`Started at ${new Date().getTime()}`);
+while (true) {
+	if (!game.nextMove()) {
+		if (game.isGameOver()) {
+			break;
+		}
+	}
+	game.handleNextMove();
+	if (game.isVictory()) {
+		game.handleVictory(true);
+		game.deleteMove();
+	}
+}
+console.log(`Ended at ${new Date().getTime()}`);
+</code></pre>
+        </article>
+    </section>
 
 
 

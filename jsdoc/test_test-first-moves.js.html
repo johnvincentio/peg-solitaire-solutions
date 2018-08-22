@@ -203,11 +203,15 @@ describe('test the first series of moves', () => {
 
 		const local = [];
 		for (let dataIdx = 0; dataIdx &lt; testData.length; dataIdx++) {
-			game.nextMove();
+			const found = game.nextMove();
 			const obj = game.currentMove;
 			obj.should.be.deep.equal(testData[dataIdx]);
 
-			game.handleNextMove();
+			if (found) {
+				game.makeMove();
+			} else {
+				game.deleteMove();
+			}
 
 			utils.check(obj, local);
 
@@ -226,7 +230,7 @@ describe('test the first series of moves', () => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Checker.html">Checker</a></li><li><a href="module-CheckGame.html">CheckGame</a></li><li><a href="module-LastVictory.html">LastVictory</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-test-actual-victories.html">test-actual-victories</a></li><li><a href="module-test-board.html">test-board</a></li><li><a href="module-test-first-moves.html">test-first-moves</a></li><li><a href="module-test-first-victories.html">test-first-victories</a></li><li><a href="module-test-game-over.html">test-game-over</a></li></ul><h3>Classes</h3><ul><li><a href="Game.html">Game</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Checker.html">Checker</a></li><li><a href="module-CheckGame.html">CheckGame</a></li><li><a href="module-GameOver.html">GameOver</a></li><li><a href="module-LastVictory.html">LastVictory</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-test-actual-victories.html">test-actual-victories</a></li><li><a href="module-test-board.html">test-board</a></li><li><a href="module-test-first-moves.html">test-first-moves</a></li><li><a href="module-test-first-victories.html">test-first-victories</a></li><li><a href="module-test-game-over.html">test-game-over</a></li></ul><h3>Classes</h3><ul><li><a href="Game.html">Game</a></li></ul>
 </nav>
 
 <br class="clear">
