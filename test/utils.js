@@ -21,11 +21,11 @@ class Utils {
 	checkVictory(victory) {
 		// console.log('victory ', victory);
 
-		this.game.moves.length.should.be.equal(31);
-		this.game.table.counter.should.be.equal(34);
+		this.game.table.moves.length.should.be.equal(31);
+		this.game.table.counter.should.be.equal(30);
 
 		// console.log('moves ', this.game.moves);
-		this.game.moves.should.be.deep.equal(victory);
+		this.game.table.moves.should.be.deep.equal(victory);
 
 		this.game.isVictory().should.be.a('boolean');
 		this.game.isVictory().should.equal(true);
