@@ -175,11 +175,15 @@ describe('test the first series of moves', () => {
 
 		const local = [];
 		for (let dataIdx = 0; dataIdx < testData.length; dataIdx++) {
-			game.nextMove();
+			const found = game.nextMove();
 			const obj = game.currentMove;
 			obj.should.be.deep.equal(testData[dataIdx]);
 
-			game.handleNextMove();
+			if (found) {
+				game.makeMove();
+			} else {
+				game.deleteMove();
+			}
 
 			utils.check(obj, local);
 

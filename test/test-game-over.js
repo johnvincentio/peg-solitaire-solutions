@@ -16,36 +16,42 @@ const Game = require('../src/game');
 describe('test end of game', () => {
 	it('game should be over', () => {
 		const game = new Game();
-		game.emptyBoard();
-		game.setOccupied(6, 2);
-
-		game.makeMoveStatus('OK', 6, 4, 6, 3, 6, 2, 4);
-
-		game.table.counter = 0;
-		game.table.moves[0] = game.currentMove;
-
-		game.from = { row: 0, column: 0, type: 0 };
-
-		game.deleteMove();
-
-		game.isGameOver().should.equal(true);
+		for (let row = 5; row < 7; row++) {
+			for (let column = 4; column < 7; column++) {
+				for (let type = 1; type < 5; type++) {
+					game.from = { row, column, type };
+					game.nextMove().should.equal(false);
+					game.table.counter.should.equal(-1);
+				}
+			}
+		}
 	});
 
 	it('game should not be over', () => {
 		const game = new Game();
-		game.emptyBoard();
-		game.setOccupied(6, 2);
+		game.isOccupied(5, 3).should.equal(true);
+		game.isOccupied(4, 3).should.equal(true);
+		game.isOccupied(3, 3).should.equal(false);
 
-		game.makeMoveStatus('OK', 6, 4, 6, 3, 6, 2, 4);
-		game.table.moves[++game.table.counter] = game.currentMove;
+		game.from = { row: 5, column: 3, type: 0 };
 
-		game.makeMoveStatus('OK', 3, 4, 3, 3, 3, 2, 4);
-		game.table.moves[++game.table.counter] = game.currentMove;
+		game.nextMove().should.equal(true);
 
-		game.from = { row: 0, column: 0, type: 0 };
+		game.makeMove().should.equal(true);
+		game.table.counter.should.equal(0);
 
-		game.deleteMove();
+		const obj = {
+			status: 'OK',
+			from: { row: 5, column: 3 },
+			via: { row: 4, column: 3 },
+			to: { row: 3, column: 3 },
+			type: 1
+		};
+		obj.should.be.deep.equal(game.currentMove);
+		obj.should.be.deep.equal(game.table.moves[0]);
 
-		game.isGameOver().should.equal(false);
+		game.isOccupied(5, 3).should.equal(false);
+		game.isOccupied(4, 3).should.equal(false);
+		game.isOccupied(3, 3).should.equal(true);
 	});
 });

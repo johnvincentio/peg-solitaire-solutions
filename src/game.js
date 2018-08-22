@@ -17,7 +17,6 @@ const { VICTORIES_DIR, VICTORIES_LOG } = process.env;
 
 class Game {
 	constructor() {
-		// this.moves = [];
 		this.table = {
 			moves: [],
 			counter: -1
@@ -100,21 +99,6 @@ class Game {
 		fs.writeFileSync(`${VICTORIES_DIR}/${this.victories}.txt`, JSON.stringify(this.table.moves));
 	}
 
-	/**
-	 * Determine whether game is over
-	 *
-	 * @return {boolean} - true if game is over
-	 */
-	isGameOver() {
-		if (this.table.counter <= 0) {
-			if (this.from.row === 6 && this.from.column === 4 && this.from.type === 4) {
-				console.log('Game is over');
-				return true;
-			}
-		}
-		return false;
-	}
-
 	/* eslint no-constant-condition: ["error", { "checkLoops": false }] */
 
 	/**
@@ -123,15 +107,17 @@ class Game {
 	start() {
 		console.log(`Started at ${new Date().getTime()}`);
 		while (true) {
-			if (!this.nextMove()) {
-				if (this.isGameOver()) {
+			if (this.nextMove()) {
+				this.makeMove();
+				if (this.isVictory()) {
+					this.handleVictory(true);
+					this.deleteMove();
+				}
+			} else {
+				if (this.table.counter <= 0) {
+					console.log('Game is over');
 					break;
 				}
-			}
-
-			this.handleNextMove();
-			if (this.isVictory()) {
-				this.handleVictory(true);
 				this.deleteMove();
 			}
 		}
@@ -210,19 +196,6 @@ class Game {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Handle next move
-	 */
-	handleNextMove() {
-		if (this.currentMove.status === 'OK') {
-			this.makeMove();
-		} else if (this.currentMove.status === 'None') {
-			this.deleteMove();
-		} else {
-			throw Error(`Exception in start(); move ${this.currentMove.status} is invalid status`);
-		}
 	}
 
 	/**
@@ -339,23 +312,20 @@ class Game {
 		// console.log('>>> deleteMove');
 		// const lastMove = this.moves.pop();
 
-		if (this.table.counter > -1) {
-			const lastMove = this.table.moves[this.table.counter];
-			this.table.moves[this.table.counter] = this.currentMove;
-			this.table.counter--;
+		const lastMove = this.table.moves[this.table.counter];
+		this.table.moves[this.table.counter] = this.currentMove;
+		this.table.counter--;
 
-			const { status, from, to, via } = lastMove;
-			if (status !== 'OK') {
-				throw Error(`Exception in deleteMove(); move ${lastMove} is invalid status`);
-			}
-			this.setOccupied(from.row, from.column);
-			this.setOccupied(via.row, via.column);
-			this.setEmpty(to.row, to.column);
-
-			this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
-		} else {
-			this.from.type++;
+		const { status, from, to, via } = lastMove;
+		if (status !== 'OK') {
+			throw Error(`Exception in deleteMove(); move ${lastMove} is invalid status`);
 		}
+		this.setOccupied(from.row, from.column);
+		this.setOccupied(via.row, via.column);
+		this.setEmpty(to.row, to.column);
+
+		this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
+
 		// console.log('<<< deleteMove');
 	}
 

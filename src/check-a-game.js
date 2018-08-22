@@ -3,7 +3,8 @@
 /* eslint-disable no-plusplus */
 
 /**
- * Check a Peg Solitaire solution to verify it is correct.
+ * Check a Peg Solitaire solution to verify it is correct which it
+ * does by replaying the game.
  *
  * @module CheckGame
  * @requires fs
@@ -35,7 +36,7 @@ for (let dataIdx = 0; dataIdx < data.length; dataIdx++) {
 	}
 
 	game.currentMove = obj; // set current move
-	game.handleNextMove(); // make the move
+	game.makeMove();
 
 	if (game.table.counter !== dataIdx) {
 		throw Error(

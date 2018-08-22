@@ -17,17 +17,4 @@ game.from = { row: 5, column: 3, type: 0 };
 
 /* eslint no-constant-condition: ["error", { "checkLoops": false }] */
 
-console.log(`Started at ${new Date().getTime()}`);
-while (true) {
-	if (!game.nextMove()) {
-		if (game.isGameOver()) {
-			break;
-		}
-	}
-	game.handleNextMove();
-	if (game.isVictory()) {
-		game.handleVictory(true);
-		game.deleteMove();
-	}
-}
-console.log(`Ended at ${new Date().getTime()}`);
+game.start();

@@ -27,7 +27,7 @@ function testVictory(data) {
 	for (let dataIdx = 0; dataIdx < data.length; dataIdx++) {
 		const obj = data[dataIdx];
 		game.currentMove = obj; // set current move
-		game.handleNextMove(); // make the move
+		game.makeMove();
 
 		game.table.counter.should.be.equal(dataIdx);
 		utils.check(obj, local);

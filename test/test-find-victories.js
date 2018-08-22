@@ -29,24 +29,27 @@ describe('test finding the first series of victories', () => {
 		console.log(`Started at ${new Date().getTime()}`);
 		console.log(`Searching for the first ${TOTAL_VICTORIES} victories`);
 		while (true) {
-			if (!game.nextMove()) {
-				if (game.isGameOver()) {
+			if (game.nextMove()) {
+				game.makeMove();
+				if (game.isVictory()) {
+					game.handleVictory(false);
+
+					utils.checkVictory(victories[game.victories - 1]);
+					if (game.victories >= TOTAL_VICTORIES) {
+						break;
+					}
+
+					game.deleteMove();
+				}
+			} else {
+				if (game.table.counter <= 0) {
+					console.log('Game is over');
 					break;
 				}
-			}
-
-			game.handleNextMove();
-			if (game.isVictory()) {
-				game.handleVictory(false);
-
-				utils.checkVictory(victories[game.victories - 1]);
-				if (game.victories >= TOTAL_VICTORIES) {
-					break;
-				}
-
 				game.deleteMove();
 			}
 		}
+
 		console.log(`Ended at ${new Date().getTime()}`);
 	}).timeout(150000);
 });
