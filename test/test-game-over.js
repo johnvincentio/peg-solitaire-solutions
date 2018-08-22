@@ -2,6 +2,8 @@
 
 /* global describe, it */
 
+/* eslint-disable no-plusplus */
+
 /**
  * Test game over
  *
@@ -17,14 +19,11 @@ describe('test end of game', () => {
 		game.emptyBoard();
 		game.setOccupied(6, 2);
 
-		const move = {
-			status: 'OK',
-			from: { row: 6, column: 4 },
-			via: { row: 6, column: 3 },
-			to: { row: 6, column: 2 },
-			type: 4
-		};
-		game.moves.push(move);
+		game.makeMoveStatus('OK', 6, 4, 6, 3, 6, 2, 4);
+
+		game.table.counter = 0;
+		game.table.moves[0] = game.currentMove;
+
 		game.from = { row: 0, column: 0, type: 0 };
 
 		game.deleteMove();
@@ -37,20 +36,12 @@ describe('test end of game', () => {
 		game.emptyBoard();
 		game.setOccupied(6, 2);
 
-		game.moves.push({
-			status: 'OK',
-			from: { row: 6, column: 4 },
-			via: { row: 6, column: 3 },
-			to: { row: 6, column: 2 },
-			type: 4
-		});
-		game.moves.push({
-			status: 'OK',
-			from: { row: 3, column: 4 },
-			via: { row: 3, column: 3 },
-			to: { row: 3, column: 2 },
-			type: 4
-		});
+		game.makeMoveStatus('OK', 6, 4, 6, 3, 6, 2, 4);
+		game.table.moves[++game.table.counter] = game.currentMove;
+
+		game.makeMoveStatus('OK', 3, 4, 3, 3, 3, 2, 4);
+		game.table.moves[++game.table.counter] = game.currentMove;
+
 		game.from = { row: 0, column: 0, type: 0 };
 
 		game.deleteMove();
