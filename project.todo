@@ -2,7 +2,7 @@
 
 ☐ Failed after > 3 million solutions. Why?
 
-☐ Look for a memory leak.
+✔ Look for a memory leak. @done (2018-8-22 19:07:31)
 
 ✔ Update code to latest standards. @done (2018-8-20 06:38:17)
 
@@ -10,19 +10,4 @@
 
 ✔ JSDoc the code @done (2018-8-20 06:37:55)
 
-☐ Checker to verify each solution is correct.
-
-node --inspect
-
-provides 
-> node --inspect main.js
-
-Debugger listening on ws://127.0.0.1:9229/d6e06c5c-8245-4db0-a9d4-1140a512bb05
-For help see https://nodejs.org/en/docs/inspector
-
-Open chrome
-chrome://inspect
-
-Target:
-	see node app in the list
-	Click: inspect
+✔ Checker to verify each solution is correct. @done (2018-8-22 19:07:38)
