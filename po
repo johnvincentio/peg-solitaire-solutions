@@ -1,8 +1,6 @@
 #
 
-# node src/check-a-game.js /Users/jv/tmp/peg-solitaire-solutions/victories/1.txt
+node src/check-a-game.js /Users/jv/tmp/peg-solitaire-solutions/victories/1.txt
 
-node src/check-a-game.js /Users/jv/tmp/peg-solutions/1.txt
-
-
+# node src/check-a-game.js /Users/jv/tmp/peg-solutions/1.txt
 

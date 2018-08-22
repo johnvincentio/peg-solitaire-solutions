@@ -16,7 +16,7 @@ const fs = require('fs');
 const Game = require('./game.js');
 
 const args = process.argv.slice(2);
-console.log('Checking file ', args[0]);
+console.log('Processing file ', args[0]);
 // console.log('args ', args);
 
 // try {
