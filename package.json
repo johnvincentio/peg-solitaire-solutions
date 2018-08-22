@@ -11,6 +11,7 @@
 		"checker": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories VICTORIES_LOG=true node src/checker.js",
 		"inspect": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories VICTORIES_LOG=true node --inspect src/main.js",
 		"last-victory": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories VICTORIES_LOG=true node src/find-last-victory.js",
+		"game-over": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories VICTORIES_LOG=true node src/find-game-over.js",
     "jsdoc": "./node_modules/.bin/jsdoc -c ./jsdoc.json",
     "test": "VICTORIES_DIR=/Users/jv/tmp/peg-solitaire-solutions/victories VICTORIES_LOG=true mocha"
   },

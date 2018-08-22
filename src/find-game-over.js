@@ -3,9 +3,9 @@
 /* eslint-disable no-plusplus */
 
 /**
- * Find last Peg Solitaire solution
+ * Find game over
  *
- * @module LastVictory
+ * @module GameOver
  * @requires Game
  */
 
@@ -13,7 +13,7 @@ const Game = require('./game.js');
 
 const game = new Game();
 
-game.from = { row: 5, column: 3, type: 0 };
+game.from = { row: 6, column: 4, type: 3 };
 
 /* eslint no-constant-condition: ["error", { "checkLoops": false }] */
 
