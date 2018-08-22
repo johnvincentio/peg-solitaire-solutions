@@ -44,7 +44,7 @@ const fs = require('fs');
 const Game = require('./game.js');
 
 const args = process.argv.slice(2);
-console.log('Checking file ', args[0]);
+console.log('Processing file ', args[0]);
 // console.log('args ', args);
 
 // try {
@@ -65,9 +65,10 @@ for (let dataIdx = 0; dataIdx &lt; data.length; dataIdx++) {
 	game.currentMove = obj; // set current move
 	game.handleNextMove(); // make the move
 
-	if (game.moves.length !== dataIdx + 1) {
+	if (game.table.counter !== dataIdx) {
 		throw Error(
-			`Exception in file ${args[0]}, dataIdx ${dataIdx + 1} should be equal game.moves.length ${game.moves.length}`
+			`Exception in file ${args[0]}, dataIdx ${dataIdx} 
+			should be equal game.moves.length ${game.table.counter}`
 		);
 	}
 
