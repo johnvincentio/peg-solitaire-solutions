@@ -97,7 +97,7 @@ class Game {
    */
 	writeVictory() {
 		// prettier-ignore
-		fs.writeFileSync(`${VICTORIES_DIR}/${this.victories}.txt`, this.makeResultObject());
+		fs.writeFileSync(`${VICTORIES_DIR}/${this.victories}.txt`, JSON.stringify(this.table.moves));
 	}
 
 	/* eslint no-constant-condition: ["error", { "checkLoops": false }] */
