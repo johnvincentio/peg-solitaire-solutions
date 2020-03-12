@@ -59,8 +59,8 @@ class Game {
 	}
 
 	/**
-	 * empty the board model
-	 */
+   * empty the board model
+   */
 	emptyBoard() {
 		this.rows = [];
 		for (let x = 0; x < 7; x++) {
@@ -78,10 +78,10 @@ class Game {
 	}
 
 	/**
-	 * Determine whether victory has been found
-	 *
-	 * @return {boolean} - true if victory has been found
-	 */
+   * Determine whether victory has been found
+   *
+   * @return {boolean} - true if victory has been found
+   */
 	isVictory() {
 		if (this.table.counter < 30) {
 			return false;
@@ -93,17 +93,18 @@ class Game {
 	}
 
 	/**
-	 * Handle write the victory
-	 */
+   * Handle write the victory
+   */
 	writeVictory() {
-		fs.writeFileSync(`${VICTORIES_DIR}/${this.victories}.txt`, JSON.stringify(this.table.moves));
+		// prettier-ignore
+		fs.writeFileSync(`${VICTORIES_DIR}/${this.victories}.txt`, this.makeResultObject());
 	}
 
 	/* eslint no-constant-condition: ["error", { "checkLoops": false }] */
 
 	/**
-	 * Start looking for solutions
-	 */
+   * Start looking for solutions
+   */
 	start() {
 		console.log(`Started at ${new Date().getTime()}`);
 		while (true) {
@@ -125,13 +126,14 @@ class Game {
 	}
 
 	/**
-	 * Handle a victory has been found
-	 *
-	 * @param {boolean} save - true if game is to be saved
-	 */
+   * Handle a victory has been found
+   *
+   * @param {boolean} save - true if game is to be saved
+   */
 	handleVictory(save) {
 		this.victories++;
 		if (VICTORIES_LOG === 'true') {
+			// prettier-ignore
 			console.log(`*** Victory ${this.victories} has been found at ${new Date().getTime()} ***`);
 		}
 		if (save) {
@@ -140,10 +142,10 @@ class Game {
 	}
 
 	/**
-	 * Look for the next move
-	 *
-	 * @return {boolean} true if a possible next move was found
-	 */
+   * Look for the next move
+   *
+   * @return {boolean} true if a possible next move was found
+   */
 	nextMove() {
 		for (let { row } = this.from; row < 7; row++) {
 			for (let { column } = this.from; column < 7; column++) {
@@ -164,32 +166,36 @@ class Game {
 	}
 
 	/**
-	 * Find the next possible move
-	 *
-	 * @param {number} row - from row
-	 * @param {number} column - from column
-	 * @param {number} type - begin with this move type
-	 * @return {boolean} true if a possible move was found
-	 */
+   * Find the next possible move
+   *
+   * @param {number} row - from row
+   * @param {number} column - from column
+   * @param {number} type - begin with this move type
+   * @return {boolean} true if a possible move was found
+   */
 	findMove(row, column, type) {
 		for (let current = type; current < 5; current++) {
 			if (current === 1) {
 				if (this.isFromUpMoveLegal(row, column)) {
+					// prettier-ignore
 					this.makeMoveStatus('OK', row, column, row - 1, column, row - 2, column, current);
 					return true;
 				}
 			} else if (current === 2) {
 				if (this.isFromRightMoveLegal(row, column)) {
+					// prettier-ignore
 					this.makeMoveStatus('OK', row, column, row, column + 1, row, column + 2, current);
 					return true;
 				}
 			} else if (current === 3) {
 				if (this.isFromDownMoveLegal(row, column)) {
+					// prettier-ignore
 					this.makeMoveStatus('OK', row, column, row + 1, column, row + 2, column, current);
 					return true;
 				}
 			} else if (current === 4) {
 				if (this.isFromLeftMoveLegal(row, column)) {
+					// prettier-ignore
 					this.makeMoveStatus('OK', row, column, row, column - 1, row, column - 2, current);
 					return true;
 				}
@@ -199,23 +205,23 @@ class Game {
 	}
 
 	/**
-	 * Make this move
-	 *
-	 * @return {Object} Move object
-	 * @throws {Error} if move is not valid
-	 *
-	 * <pre>
-	 * 1. Verify from and to are the 2 tiles apart, on a straight line.
-	 * 2. Calculate the tile between from & to.
-	 * 3. Verify from tile is legal and is occupied.
-	 * 4. Verify in between tile is legal and is occupied.
-	 * 5. Verify to tile is legal and is not occupied.
-	 * 6. Update data model:
-	 * 6a. Set from tile to empty
-	 * 6b. Set in between tile to empty
-	 * 6c. Set to tile to occupied.
-	 * </pre>
-	 */
+   * Make this move
+   *
+   * @return {Object} Move object
+   * @throws {Error} if move is not valid
+   *
+   * <pre>
+   * 1. Verify from and to are the 2 tiles apart, on a straight line.
+   * 2. Calculate the tile between from & to.
+   * 3. Verify from tile is legal and is occupied.
+   * 4. Verify in between tile is legal and is occupied.
+   * 5. Verify to tile is legal and is not occupied.
+   * 6. Update data model:
+   * 6a. Set from tile to empty
+   * 6b. Set in between tile to empty
+   * 6c. Set to tile to occupied.
+   * </pre>
+   */
 	makeMove() {
 		// console.log(`>>> makeMove; move ${JSON.stringify(move)}`);
 		// if (this.moves.length <= 0) {
@@ -224,10 +230,12 @@ class Game {
 
 		const { status, from, to, via, type } = this.currentMove;
 		if (status !== 'OK') {
+			// prettier-ignore
 			throw Error(`Exception in makeMove(); move ${JSON.stringify(this.currentMove)} is invalid status`);
 		}
 
 		if (!Game.isTypeLegal(type)) {
+			// prettier-ignore
 			throw Error(`Exception in makeMove(); type ${type} in ${JSON.stringify(this.currentMove)} is invalid`);
 		}
 
@@ -235,40 +243,44 @@ class Game {
 			case 1: // move up
 				if (
 					via.row !== from.row - 1 ||
-					to.row !== from.row - 2 ||
-					via.column !== from.column ||
-					to.column !== from.column
+          to.row !== from.row - 2 ||
+          via.column !== from.column ||
+          to.column !== from.column
 				) {
+					// prettier-ignore
 					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
 				}
 				break;
 			case 2: // move right
 				if (
 					via.row !== from.row ||
-					to.row !== from.row ||
-					via.column !== from.column + 1 ||
-					to.column !== from.column + 2
+          to.row !== from.row ||
+          via.column !== from.column + 1 ||
+          to.column !== from.column + 2
 				) {
+					// prettier-ignore
 					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
 				}
 				break;
 			case 3: // move down
 				if (
 					via.row !== from.row + 1 ||
-					to.row !== from.row + 2 ||
-					via.column !== from.column ||
-					to.column !== from.column
+          to.row !== from.row + 2 ||
+          via.column !== from.column ||
+          to.column !== from.column
 				) {
+					// prettier-ignore
 					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
 				}
 				break;
 			case 4: // move left
 				if (
 					via.row !== from.row ||
-					to.row !== from.row ||
-					via.column !== from.column - 1 ||
-					to.column !== from.column - 2
+          to.row !== from.row ||
+          via.column !== from.column - 1 ||
+          to.column !== from.column - 2
 				) {
+					// prettier-ignore
 					throw Error(`Exception in makeMove(); ${JSON.stringify(this.currentMove)} is not a possible move`);
 				}
 				break;
@@ -276,16 +288,22 @@ class Game {
 				break;
 		}
 
+		// prettier-ignore
 		if (!Game.isLegal(from.row, from.column) || !this.isOccupied(from.row, from.column)) {
 			// 3
+			// prettier-ignore
 			throw Error(`Exception in makeMove(); from in ${JSON.stringify(this.currentMove)} is invalid`);
 		}
-		if (!Game.isLegal(via.row, via.column) || !this.isOccupied(via.row, via.column)) {
+		// prettier-ignore
+		if (!Game.isLegal(via.row, via.column) || !this.isOccupied(via.row, via.column) ) {
 			// 4
+			// prettier-ignore
 			throw Error(`Exception in makeMove(); via in ${JSON.stringify(this.currentMove)} is invalid`);
 		}
+		// prettier-ignore
 		if (!Game.isLegal(to.row, to.column) || this.isOccupied(to.row, to.column)) {
 			// 5
+			// prettier-ignore
 			throw Error(`Exception in makeMove(); to in ${JSON.stringify(this.currentMove)} is invalid`);
 		}
 
@@ -304,10 +322,10 @@ class Game {
 	}
 
 	/**
-	 * Delete last move
-	 *
-	 * @throws {Error} if move is not valid
-	 */
+   * Delete last move
+   *
+   * @throws {Error} if move is not valid
+   */
 	deleteMove() {
 		// console.log('>>> deleteMove');
 		// const lastMove = this.moves.pop();
@@ -318,141 +336,149 @@ class Game {
 
 		const { status, from, to, via } = lastMove;
 		if (status !== 'OK') {
+			// prettier-ignore
 			throw Error(`Exception in deleteMove(); move ${lastMove} is invalid status`);
 		}
 		this.setOccupied(from.row, from.column);
 		this.setOccupied(via.row, via.column);
 		this.setEmpty(to.row, to.column);
 
-		this.from = { row: lastMove.from.row, column: lastMove.from.column, type: lastMove.type };
+		this.from = {
+			row: lastMove.from.row,
+			column: lastMove.from.column,
+			type: lastMove.type
+		};
 
 		// console.log('<<< deleteMove');
 	}
 
 	/**
-	 * Determine whether this position is occupied.
-	 *
-	 * @param {number} row - row
-	 * @param {number} column - column
-	 * @return {boolean} - true if is occupied
-	 */
+   * Determine whether this position is occupied.
+   *
+   * @param {number} row - row
+   * @param {number} column - column
+   * @return {boolean} - true if is occupied
+   */
 	isOccupied(row, column) {
 		if (!Game.isLegal(row, column)) {
+			// prettier-ignore
 			throw Error(`Exception in isOccupied(); row ${row} column ${column} is not legal`);
 		}
 		return this.rows[row][column].occupied;
 	}
 
 	/**
-	 * Set this position to empty
-	 *
-	 * @param {number} row - row
-	 * @param {number} column - column
-	 * @throws {Error} if position is not legal
-	 */
+   * Set this position to empty
+   *
+   * @param {number} row - row
+   * @param {number} column - column
+   * @throws {Error} if position is not legal
+   */
 	setEmpty(row, column) {
 		if (!Game.isLegal(row, column)) {
+			// prettier-ignore
 			throw Error(`Exception in setEmpty(); row ${row} column ${column} is not legal`);
 		}
 		this.rows[row][column].occupied = false;
 	}
 
 	/**
-	 * Set this position to occupied
-	 *
-	 * @param {number} row - row
-	 * @param {number} column - column
-	 * @throws {Error} if position is not legal
-	 */
+   * Set this position to occupied
+   *
+   * @param {number} row - row
+   * @param {number} column - column
+   * @throws {Error} if position is not legal
+   */
 	setOccupied(row, column) {
 		if (!Game.isLegal(row, column)) {
+			// prettier-ignore
 			throw Error(`Exception in setEmpty(); row ${row} column ${column} is not legal`);
 		}
 		this.rows[row][column].occupied = true;
 	}
 
 	/**
-	 * Determine whether moving up is legal
-	 *
-	 * @param {number} row - row
-	 * @param {number} column - column
-	 * @return {boolean} - true if legal
-	 */
+   * Determine whether moving up is legal
+   *
+   * @param {number} row - row
+   * @param {number} column - column
+   * @return {boolean} - true if legal
+   */
 	isFromUpMoveLegal(row, column) {
 		return (
 			Game.isLegal(row, column) &&
-			this.isOccupied(row, column) &&
-			Game.isLegal(row - 1, column) &&
-			this.isOccupied(row - 1, column) &&
-			Game.isLegal(row - 2, column) &&
-			!this.isOccupied(row - 2, column)
+      this.isOccupied(row, column) &&
+      Game.isLegal(row - 1, column) &&
+      this.isOccupied(row - 1, column) &&
+      Game.isLegal(row - 2, column) &&
+      !this.isOccupied(row - 2, column)
 		);
 	}
 
 	/**
-	 * Determine whether moving right is legal
-	 *
-	 * @param {number} row - row
-	 * @param {number} column - column
-	 * @return {boolean} - true if legal
-	 */
+   * Determine whether moving right is legal
+   *
+   * @param {number} row - row
+   * @param {number} column - column
+   * @return {boolean} - true if legal
+   */
 	isFromRightMoveLegal(row, column) {
 		return (
 			Game.isLegal(row, column) &&
-			this.isOccupied(row, column) &&
-			Game.isLegal(row, column + 1) &&
-			this.isOccupied(row, column + 1) &&
-			Game.isLegal(row, column + 2) &&
-			!this.isOccupied(row, column + 2)
+      this.isOccupied(row, column) &&
+      Game.isLegal(row, column + 1) &&
+      this.isOccupied(row, column + 1) &&
+      Game.isLegal(row, column + 2) &&
+      !this.isOccupied(row, column + 2)
 		);
 	}
 
 	/**
-	 * Determine whether moving down is legal
-	 *
-	 * @param {number} row - row
-	 * @param {number} column - column
-	 * @return {boolean} - true if legal
-	 */
+   * Determine whether moving down is legal
+   *
+   * @param {number} row - row
+   * @param {number} column - column
+   * @return {boolean} - true if legal
+   */
 	isFromDownMoveLegal(row, column) {
 		return (
 			Game.isLegal(row, column) &&
-			this.isOccupied(row, column) &&
-			Game.isLegal(row + 1, column) &&
-			this.isOccupied(row + 1, column) &&
-			Game.isLegal(row + 2, column) &&
-			!this.isOccupied(row + 2, column)
+      this.isOccupied(row, column) &&
+      Game.isLegal(row + 1, column) &&
+      this.isOccupied(row + 1, column) &&
+      Game.isLegal(row + 2, column) &&
+      !this.isOccupied(row + 2, column)
 		);
 	}
 
 	/**
-	 * Determine whether moving left is legal
-	 *
-	 * @param {number} row - row
-	 * @param {number} column - column
-	 * @return {boolean} - true if legal
-	 */
+   * Determine whether moving left is legal
+   *
+   * @param {number} row - row
+   * @param {number} column - column
+   * @return {boolean} - true if legal
+   */
 	isFromLeftMoveLegal(row, column) {
 		return (
 			Game.isLegal(row, column) &&
-			this.isOccupied(row, column) &&
-			Game.isLegal(row, column - 1) &&
-			this.isOccupied(row, column - 1) &&
-			Game.isLegal(row, column - 2) &&
-			!this.isOccupied(row, column - 2)
+      this.isOccupied(row, column) &&
+      Game.isLegal(row, column - 1) &&
+      this.isOccupied(row, column - 1) &&
+      Game.isLegal(row, column - 2) &&
+      !this.isOccupied(row, column - 2)
 		);
 	}
 
 	/**
-	 * Determine whether this position is legal.
-	 *
-	 * The board is treated as a square, so the function is used to determine which squares are
-	 * within the board
-	 *
-	 * @param {number} row - row
-	 * @param {number} column - column
-	 * @return {boolean} - true if is a legal position
-	 */
+   * Determine whether this position is legal.
+   *
+   * The board is treated as a square, so the function is used to determine which squares are
+   * within the board
+   *
+   * @param {number} row - row
+   * @param {number} column - column
+   * @return {boolean} - true if is a legal position
+   */
 	static isLegal(row, column) {
 		if (row < 0 || row > 6) {
 			return false;
@@ -469,31 +495,32 @@ class Game {
 	}
 
 	/**
-	 * Determine whether this position is legal.
-	 *
-	 * The board is treated as a square, so the function is used to determine which squares are
-	 * within the board
-	 *
-	 * @param {number} type - type
-	 * @return {boolean} - true if is a legal type
-	 */
+   * Determine whether this position is legal.
+   *
+   * The board is treated as a square, so the function is used to determine which squares are
+   * within the board
+   *
+   * @param {number} type - type
+   * @return {boolean} - true if is a legal type
+   */
 	static isTypeLegal(type) {
 		return type > 0 && type < 5;
 	}
 
 	/**
-	 * Transform move status to an object
-	 *
-	 * @param {string} status - status
-	 * @param {number} fromRow - from row
-	 * @param {number} fromColumn - from column
-	 * @param {number} viaRow - via row
-	 * @param {number} viaColumn - via column
-	 * @param {number} toRow - to row
-	 * @param {number} toColumn - to column
-	 * @param {number} type - move type
-	 * @return {Object} Move object
-	 */
+   * Transform move status to an object
+   *
+   * @param {string} status - status
+   * @param {number} fromRow - from row
+   * @param {number} fromColumn - from column
+   * @param {number} viaRow - via row
+   * @param {number} viaColumn - via column
+   * @param {number} toRow - to row
+   * @param {number} toColumn - to column
+   * @param {number} type - move type
+   * @return {Object} Move object
+   */
+	// prettier-ignore
 	makeMoveStatus(status, fromRow, fromColumn, viaRow, viaColumn, toRow, toColumn, type) {
 		this.currentMove = {
 			status,
@@ -505,8 +532,8 @@ class Game {
 	}
 
 	/**
-	 * Set move status to no move found
-	 */
+   * Set move status to no move found
+   */
 	makeNoMoveStatus() {
 		this.currentMove = {
 			status: 'None',
@@ -515,6 +542,23 @@ class Game {
 			to: { row: -1, column: -1 },
 			type: -1
 		};
+	}
+
+	/**
+   * Transform move object to a result object
+   *
+   * @return {Object} Result object
+   */
+	makeResultObject() {
+		const result = [];
+		this.table.moves.forEach(move => {
+			const obj = {};
+			obj.f = { r: move.from.row, c: move.from.column };
+			obj.v = { r: move.via.row, c: move.via.column };
+			obj.t = { r: move.to.row, c: move.to.column };
+			result.push(obj);
+		});
+		return JSON.stringify(result);
 	}
 }
 
